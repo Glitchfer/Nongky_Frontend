@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Landing from '../views/Landing.vue'
 import store from '../store/index'
 import Login from '../components/_module/login.vue'
 
@@ -9,8 +9,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Landing',
+    component: Landing
   },
   {
     path: '/login',
@@ -27,7 +27,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLogin) {
       next({
         path: '/'
@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  } else if (to.matched.some((record) => record.meta.requiresVisitor)) {
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
     if (store.getters.isLogin) {
       next({
         path: '/'

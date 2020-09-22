@@ -4,7 +4,7 @@
       <b-container>
         <h3>Login</h3>
         <p>Hi, Welcome back!</p>
-        <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
+        <b-form @submit.prevent="onSubmit">
           <b-form-group id="input-group-2" label="Email" label-for="input-2">
             <b-form-input
               id="input-2"
@@ -71,18 +71,15 @@ export default {
     ...mapActions([]),
     ...mapMutations([]),
     onSubmit() {
-      // this.$router.push({name: 'home', params: this.isPt}) <== untuk otorisasi badag app
-      this.$router.push({
-        name: 'Chat',
-        params: {
-          ...this.form
-        }
-      })
-    },
-    onReset() {
-      this.form = {
-        email: '',
-        password: ''
+      if (this.form.password.length < 8) {
+        alert('Password minimum 8 character')
+      } else {
+        this.$router.push({
+          name: 'Landing',
+          params: {
+            ...this.form.email
+          }
+        })
       }
     }
   }

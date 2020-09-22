@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="landing">
     <b-container>
       <h1>Landing Page</h1>
       <router-link to="/login">login</router-link>
@@ -10,7 +10,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Home',
+  name: 'Landing',
   data() {
     return {}
   },
@@ -25,5 +25,5 @@ export default {
 }
 </script>
 
-<style src="../assets/css/home.css"></style>
+<style src="../assets/css/landing.css"></style>
 <style scoped></style>
