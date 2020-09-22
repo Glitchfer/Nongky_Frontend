@@ -26,3 +26,4 @@ export default {
 </script>
 
 <style src="../assets/css/home.css"></style>
+<style scoped></style>
