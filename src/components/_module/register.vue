@@ -2,9 +2,30 @@
   <div class="page">
     <div class="login">
       <b-container>
-        <h3>Login</h3>
-        <p>Hi, Welcome back!</p>
+        <h3>Register</h3>
+        <p>Let's create your account!</p>
         <b-form @submit.prevent="onSubmit">
+          <b-form-group id="input-group-1" label="Name:" label-for="input-1">
+            <b-form-input
+              id="input-1"
+              required
+              placeholder="Enter your name"
+              v-model="form.user_name"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            id="input-group-2"
+            label="Phone number:"
+            label-for="input-2"
+          >
+            <b-form-input
+              id="input-1"
+              type="number"
+              required
+              placeholder="Enter your phone number"
+              v-model="form.user_phone"
+            ></b-form-input>
+          </b-form-group>
           <b-form-group id="input-group-2" label="Email" label-for="input-2">
             <b-form-input
               id="input-2"
@@ -28,21 +49,18 @@
               v-model="form.user_password"
             ></b-form-input>
           </b-form-group>
-          <div class="forgot">
-            <router-link to="/forgot">Forgot password?</router-link>
-          </div>
           <br />
-          <b-button type="submit" variant="primary">Login</b-button>
+          <b-button type="submit" variant="primary">Register</b-button>
           <div class="hr">
             <hr />
-            <div><p>Login with</p></div>
+            <div><p>Register with</p></div>
           </div>
           <b-button variant="danger" @click="onGoogle">Google</b-button>
           <br /><br />
           <div class="p4">
             <p>
-              Don't have an account?
-              <router-link to="/register">Sign Up</router-link>
+              Nevermind,
+              <router-link to="/login">Back !</router-link>
             </p>
           </div>
         </b-form>
@@ -54,11 +72,13 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     return {
       msg: '',
       form: {
+        user_name: '',
+        user_phone: null,
         user_email: '',
         user_password: ''
       }
@@ -72,12 +92,13 @@ export default {
     ...mapActions(['login']),
     ...mapMutations([]),
     onSubmit() {
-      this.login(this.form)
+      console.log(this.form)
+      this.register(this.form)
         .then(result => {
           alert(result.msg)
           console.log(result.data)
           this.$router.push({
-            name: 'Landing',
+            name: 'Login',
             params: {
               ...this.form.email
             }

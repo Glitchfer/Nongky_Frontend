@@ -3,7 +3,7 @@
     <div class="login">
       <b-container>
         <h3>Login</h3>
-        <p>Hi, Welcome back!</p>
+        <p>An activation link will be send to your e-mail</p>
         <b-form @submit.prevent="onSubmit">
           <b-form-group id="input-group-2" label="Email" label-for="input-2">
             <b-form-input
@@ -11,13 +11,12 @@
               type="email"
               required
               placeholder="Enter email"
-              v-model="form.user_email"
+              v-model="user_email"
             ></b-form-input>
           </b-form-group>
-
           <b-form-group
             id="input-group-3"
-            label="Your Password:"
+            label="Password:"
             label-for="input-3"
           >
             <b-form-input
@@ -28,21 +27,26 @@
               v-model="form.user_password"
             ></b-form-input>
           </b-form-group>
-          <div class="forgot">
-            <router-link to="/forgot">Forgot password?</router-link>
-          </div>
+          <b-form-group
+            id="input-group-3"
+            label="Repeat Password:"
+            label-for="input-3"
+          >
+            <b-form-input
+              id="input-3"
+              type="password"
+              required
+              placeholder="Repeat password"
+              v-model="form.re_password"
+            ></b-form-input>
+          </b-form-group>
           <br />
-          <b-button type="submit" variant="primary">Login</b-button>
-          <div class="hr">
-            <hr />
-            <div><p>Login with</p></div>
-          </div>
-          <b-button variant="danger" @click="onGoogle">Google</b-button>
+          <b-button type="submit" variant="primary">Send</b-button>
           <br /><br />
           <div class="p4">
             <p>
-              Don't have an account?
-              <router-link to="/register">Sign Up</router-link>
+              Nevermind,
+              <router-link to="/login">Back !</router-link>
             </p>
           </div>
         </b-form>
@@ -54,13 +58,14 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
-  name: 'Login',
+  name: 'Forgot',
   data() {
     return {
       msg: '',
+      user_email: '',
       form: {
-        user_email: '',
-        user_password: ''
+        user_password: '',
+        re_password: ''
       }
     }
   },
@@ -69,15 +74,16 @@ export default {
     ...mapGetters([])
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['forgot']),
     ...mapMutations([]),
     onSubmit() {
-      this.login(this.form)
+      this.forgot([this.user_email, this.form])
         .then(result => {
+          alert('Please check your e-mail')
+          alert('try again, if you did not get your activation link')
           alert(result.msg)
-          console.log(result.data)
           this.$router.push({
-            name: 'Landing',
+            name: 'Login',
             params: {
               ...this.form.email
             }
@@ -87,9 +93,6 @@ export default {
           this.msg = error.data.msg
           alert(this.msg)
         })
-    },
-    onGoogle() {
-      alert('This feature will be able to use as soon as posible')
     }
   }
 }

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Landing from '../views/Landing.vue'
 import store from '../store/index'
 import Login from '../components/_module/login.vue'
+import Register from '../components/_module/register.vue'
+import Forgot from '../components/_module/forgot.vue'
 
 Vue.use(VueRouter)
 
@@ -15,8 +17,20 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
-    // meta: { requiresVisitor: true }
+    component: Login,
+    meta: { requiresVisitor: true }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: { requiresVisitor: true }
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    component: Forgot,
+    meta: { requiresVisitor: true }
   }
 ]
 
@@ -30,7 +44,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLogin) {
       next({
-        path: '/'
+        path: '/login'
       })
     } else {
       next()

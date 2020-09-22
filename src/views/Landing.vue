@@ -3,6 +3,8 @@
     <b-container>
       <h1>Landing Page</h1>
       <router-link to="/login">login</router-link>
+      <hr />
+      <button type="button" @click="onLogout">logout</button>
     </b-container>
   </div>
 </template>
@@ -20,7 +22,10 @@ export default {
     ...mapGetters([])
   },
   methods: {
-    ...mapActions([])
+    ...mapActions(['logout']),
+    onLogout() {
+      this.logout()
+    }
   }
 }
 </script>
