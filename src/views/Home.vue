@@ -15,8 +15,12 @@ export default {
   },
   components: {},
   computer: {},
-  computed: {},
-  methods: {}
+  computed: {
+    ...mapGetters([])
+  },
+  methods: {
+    ...mapActions([])
+  }
 }
 </script>
 

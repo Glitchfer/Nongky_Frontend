@@ -10,7 +10,7 @@ export default {
   name: 'Login',
   data() {
     return {}
-    }
+  },
   props: [],
   computed: {
     ...mapGetters([])
@@ -20,8 +20,6 @@ export default {
     ...mapMutations([])
   }
 }
-
 </script>
 
-<style scoped src="../../assets/css/login.css">
-</style>
+<style scoped src="../../assets/css/login.css"></style>
