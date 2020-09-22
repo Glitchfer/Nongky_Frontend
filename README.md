@@ -1,6 +1,6 @@
-<h1 align='center'>Vue JS - Badag</h1>
+<h1 align='center'>Vue JS - Nongky</h1>
 
-A system website app for company to find the besst talent. And a system website app for talent to hired by company. [More about Vue](https://vuejs.org/)
+#A system website app for... [More about Vue](https://vuejs.org/)
 
 ## Built With
 
@@ -11,11 +11,11 @@ A system website app for company to find the besst talent. And a system website 
 
 1. <a href="https://nodejs.org/en/download/">Node Js</a>
 2. Node_modules `npm install` or `yarn install`
-3. Backend API Badag [`here`](https://github.com/alfaritsi21/Badag-Backend)
+3. NONGKY API nongky [`here`](https://github.com/Glitchfer/Nongky_Backend)
 
 ## How to Install
 
-1. Download this Project or you can type `git clone https://github.com/alfaritsi21/Badag.git`
+1. Download this Project or you can type `git clone https://github.com/Glitchfer/Nongky_Frontend.git`
 2. Open app's directory in CMD or Terminal
 3. Type `npm install` or `yarn install`
 4. Type `npm start`
@@ -42,10 +42,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## License
 
-© [Arqi Alfaritsi](https://github.com/alfaritsi21/)
 © [Arif Rahman](https://github.com/Glitchfer)
-© [Bagas Afrizal](https://github.com/bagasafrz7)
-© [Dimas Prayoga](https://github.com/careerdimasprayoga)
-© [Galuh Prahadi](https://github.com/galuhprahadi96)
-# Nongky_Frontend
+
 # Nongky_Frontend
