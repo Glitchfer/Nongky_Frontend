@@ -5,6 +5,7 @@ import store from '../store/index'
 import Login from '../components/_module/login.vue'
 import Register from '../components/_module/register.vue'
 import Forgot from '../components/_module/forgot.vue'
+import Window from '../views/Window.vue'
 
 Vue.use(VueRouter)
 
@@ -12,7 +13,8 @@ const routes = [
   {
     path: '/',
     name: 'Landing',
-    component: Landing
+    component: Landing,
+    meta: { requiresVisitor: true }
   },
   {
     path: '/login',
@@ -31,6 +33,12 @@ const routes = [
     name: 'Forgot',
     component: Forgot,
     meta: { requiresVisitor: true }
+  },
+  {
+    path: '/window',
+    name: 'Window',
+    component: Window,
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -52,7 +60,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
     if (store.getters.isLogin) {
       next({
-        path: '/'
+        path: '/window'
       })
     } else {
       next()

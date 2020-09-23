@@ -1,0 +1,219 @@
+.one {
+  position: absolute;
+  font-family: 'Rubik', sans-serif;
+  left: 0;
+  right: 0;
+  padding: 15px 0;
+  padding-left: 50px;
+  padding-right: 30px;
+  height: 100%;
+  overflow: auto;
+  color: black;
+}
+.two {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #7e98df;
+}
+.close {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0 0 0 0;
+  font-size: 14px;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  transform: rotate(45deg);
+}
+.close:hover {
+  cursor: pointer;
+  border-bottom: 2px solid #7e98df;
+  border-left: 2px solid #7e98df;
+}
+.sub-two-1 {
+  margin-bottom: 15px;
+  border-radius: 5px;
+  width: 100%;
+  height: 60px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+.sub-two-1 .friend-profile {
+  padding: 0;
+  position: relative;
+  height: 100%;
+  width: 65px;
+  border-radius: 50px;
+}
+.sub-two-1 .friend-profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+}
+.sub-two-1 .friend-name {
+  text-align: left;
+  position: relative;
+  width: 60%;
+  margin-left: 15px;
+  padding: 0;
+}
+.friend-name h5 {
+  font-size: 16px;
+  position: relative;
+  margin-bottom: 5px;
+  margin-top: 8px;
+}
+.friend-name h5 img {
+  position: relative;
+  top: -2px;
+  margin-left: 5px;
+  width: 13px;
+  height: 13px;
+}
+.friend-name p {
+  color: #005eda;
+  font-size: 12px;
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+  line-height: 15px;
+  margin-bottom: 0;
+}
+.sub-two-1 .dots {
+  font-size: 14px;
+  text-align: right;
+  background-color: white;
+  right: 0;
+  position: absolute;
+  height: 100%;
+  display: flex;
+  padding: 0;
+}
+
+.sub-two-1 .dots img {
+  position: relative;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+.sub-two-1 .dots img:hover {
+  right: 2px;
+  width: 22px;
+  height: 22px;
+}
+.noChat {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.noChat p {
+  position: relative;
+  color: #848484;
+  font-size: 20px;
+  margin: auto;
+  font-family: 'Rubik', sans-serif;
+  align-items: center;
+}
+.three {
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+  height: 590px;
+  overflow: auto;
+}
+
+.msgRow {
+  position: relative;
+  text-align: left;
+  margin-bottom: 10px;
+  width: 100%;
+  padding-bottom: 0;
+}
+.chat {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.msgRow .profile {
+  position: relative;
+  width: 55px;
+  height: 50px;
+}
+.msgRow .profile2 {
+  border: 1px solid;
+  border-bottom: none;
+  width: 15px;
+  height: 20px;
+  border-radius: 50px 0 0 0;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 2px -5px 15px rgba(0, 0, 0, 0.623);
+}
+.msgRow .profile img {
+  position: absolute;
+  bottom: 0;
+  width: 45px;
+  border-radius: 50%;
+}
+.msg {
+  position: relative;
+  max-width: 60%;
+}
+.msg p {
+  position: relative;
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: 1px solid black;
+  background-color: white;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.671);
+  z-index: 0;
+}
+
+.four {
+  height: 55px;
+  margin-top: 5px;
+}
+.typing {
+  position: relative;
+  margin: auto;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.typing input {
+  padding-left: 20px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(87, 87, 87, 0.267);
+  z-index: 1;
+}
+.typing .imgIcon {
+  position: absolute;
+  width: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  right: 0;
+  z-index: 2;
+  right: 20px;
+}
+.imgIcon img {
+  cursor: pointer;
+}

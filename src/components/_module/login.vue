@@ -77,7 +77,7 @@ export default {
           alert(result.msg)
           console.log(result.data)
           this.$router.push({
-            name: 'Landing',
+            name: 'Window',
             params: {
               ...this.form.email
             }

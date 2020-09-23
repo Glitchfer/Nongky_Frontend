@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.container-one {
+  position: absolute;
+  font-family: 'Rubik', sans-serif;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  height: 100%;
+  overflow: auto;
+}
+.container-two {
+  position: relative;
+}
+.container-three {
+  position: relative;
+  color: #000000;
+  margin: auto;
+  height: 81%;
+  overflow: auto;
+}
+.sub-container-two-1 {
+  display: flex;
+  font-size: 29px;
+  color: #7e98df;
+  align-items: center;
+  justify-content: space-between;
+}
+.sub-container-two-1 .appName {
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+}
+.sub-container-two-1 h5 {
+  margin: auto 0;
+  margin-left: 5px;
+}
+.sub-container-two-1 .icon {
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+}
+.sub-container-two-1 .icon img:nth-of-type(1) {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.sub-container-two-1 .icon img:nth-of-type(2) {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.sub-container-two-1 .icon img:nth-of-type(3) {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.sub-container-two-2 {
+  position: relative;
+  top: -8px;
+}
+.sub-container-two-3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  color: #000000;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+.sub-container-two-3 h6:nth-of-type(1) {
+  font-size: 14px;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.sub-container-two-3 h6:nth-of-type(2) {
+  font-size: 14px;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.sub-container-two-3 h6:nth-of-type(3) {
+  font-size: 14px;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.sub-container-two-3 h6:nth-of-type(4) {
+  font-size: 14px;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.sub-container-two-3 h6:nth-of-type(1):hover {
+  background-color: #7e98df;
+  color: white;
+}
+.sub-container-two-3 h6:nth-of-type(2):hover {
+  background-color: #7e98df;
+  color: white;
+}
+.sub-container-two-3 h6:nth-of-type(3):hover {
+  background-color: #7e98df;
+  color: white;
+}
+.sub-container-two-3 h6:nth-of-type(4):hover {
+  background-color: #7e98df;
+  color: white;
+}
+
+.friend-list {
+  margin-bottom: 15px;
+  border-radius: 5px;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+.friend-list .profile-picture {
+  padding: 0;
+  position: relative;
+  height: 100%;
+  width: 55px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.friend-list .profile-picture img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+.friend-list .name {
+  text-align: left;
+  position: relative;
+  width: 60%;
+  margin-left: 15px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.name h5 {
+  font-size: 16px;
+  position: relative;
+  margin-bottom: 5px;
+  margin-top: 2px;
+}
+.name h5 img {
+  position: relative;
+  top: -2px;
+  margin-left: 5px;
+  width: 13px;
+  height: 13px;
+}
+.name p {
+  color: #9b9b9b;
+  font-size: 12px;
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+  line-height: 15px;
+  margin-bottom: 0;
+}
+
+.friend-list .notif {
+  font-size: 14px;
+  text-align: right;
+  background-color: white;
+  right: 0;
+  position: absolute;
+  width: 70px;
+  height: 100%;
+  padding: 0;
+}
+
+.friend-list .notif p {
+  color: #848484;
+  margin-bottom: 1px;
+}
+.friend-list .notif .count {
+  position: absolute;
+  background-color: #7e98df;
+  right: 0;
+  bottom: 0;
+  padding: 0 7px;
+  border-radius: 50%;
+}
+.friend-list .notif .count p {
+  color: #ffffff;
+}

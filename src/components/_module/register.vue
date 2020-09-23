@@ -13,11 +13,7 @@
               v-model="form.user_name"
             ></b-form-input>
           </b-form-group>
-          <b-form-group
-            id="input-group-2"
-            label="Phone number:"
-            label-for="input-2"
-          >
+          <b-form-group id="input-group-2" label="Phone number:" label-for="input-2">
             <b-form-input
               id="input-1"
               type="number"
@@ -36,11 +32,7 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-3"
-            label="Your Password:"
-            label-for="input-3"
-          >
+          <b-form-group id="input-group-3" label="Your Password:" label-for="input-3">
             <b-form-input
               id="input-3"
               type="password"
@@ -53,10 +45,13 @@
           <b-button type="submit" variant="primary">Register</b-button>
           <div class="hr">
             <hr />
-            <div><p>Register with</p></div>
+            <div>
+              <p>Register with</p>
+            </div>
           </div>
           <b-button variant="danger" @click="onGoogle">Google</b-button>
-          <br /><br />
+          <br />
+          <br />
           <div class="p4">
             <p>
               Nevermind,
@@ -89,12 +84,12 @@ export default {
     ...mapGetters([])
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['register']),
     ...mapMutations([]),
     onSubmit() {
       console.log(this.form)
       this.register(this.form)
-        .then(result => {
+        .then((result) => {
           alert(result.msg)
           console.log(result.data)
           this.$router.push({
@@ -104,7 +99,7 @@ export default {
             }
           })
         })
-        .catch(error => {
+        .catch((error) => {
           this.msg = error.data.msg
           alert(this.msg)
         })
