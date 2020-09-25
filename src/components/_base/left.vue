@@ -3,6 +3,7 @@
     <div class="container-two">
       <div class="sub-container-two-1">
         <h5>Nongky</h5>
+        <p @click="onNotif">{{ inviteCount }}</p>
         <div class="icon">
           <img @click="onAdd" src="../../assets/img/Plus.png" alt />
           <img @click="onSearch" src="../../assets/img/Search.png" alt />
@@ -11,12 +12,18 @@
       </div>
       <div class="sub-container-two-2">
         <b-input-group v-if="isSrc === true" class="mt-3">
-          <b-form-input v-model="searchMsg" placeholder="Search or start new chat"></b-form-input>
+          <b-form-input
+            v-model="searchMsg"
+            placeholder="Search message"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="sub-container-two-2">
         <b-input-group v-if="isAdd === true" class="mt-3">
-          <b-form-input v-model="searchAccount" placeholder="Fiend people with username"></b-form-input>
+          <b-form-input
+            v-model="searchFriends"
+            placeholder="Start chating with your friends"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="sub-container-two-3">
@@ -27,13 +34,22 @@
       </div>
     </div>
     <div class="container-three">
-      <div v-for="(item, index) in 2" :key="index" class="friend-list">
+      <div
+        v-for="(item, index) in getFriendList"
+        :key="index"
+        class="friend-list"
+      >
         <div class="profile-picture" @click="onFriendPick">
-          <img src="../../assets/img/propict.png" alt="#" />
+          <img
+            v-if="item.user_image.length < 1"
+            src="../../assets/img/propict.png"
+            alt="#"
+          />
+          <img v-else :src="`${urlApi}${item.user_image}`" alt="#" />
         </div>
         <div class="name" @click="onFriendPick">
           <h5>
-            Mama
+            {{ item.user_name }}
             <img src="../../assets/img/Union.png" alt="#" />
           </h5>
           <p>Why did you do that?</p>
@@ -46,6 +62,118 @@
         </div>
       </div>
     </div>
+    <div v-if="isExpand === true" class="container-four">
+      <div class="back">
+        <p @click="close" class="close2"></p>
+        <img src="../../assets/img/Settings.png" alt="" />
+      </div>
+      <div class="sub-container-four-1">
+        <img src="../../assets/img/propict.png" alt="" />
+        <h5>Gloria Mckinney</h5>
+      </div>
+      <div class="sub-container-four-2">
+        <div class="contact">
+          <div class="iconImage">
+            <img src="../../assets/img/Contacts.png" alt="" />
+          </div>
+          <p>Contacts</p>
+        </div>
+        <div class="calss">
+          <div class="iconImage">
+            <img src="../../assets/img/Vector(2).png" alt="" />
+          </div>
+          <p>Calls</p>
+        </div>
+        <div class="archive">
+          <div class="iconImage">
+            <img src="../../assets/img/Rectangle37.png" alt="" />
+          </div>
+          <p>Save messages</p>
+        </div>
+        <div class="invite">
+          <div @click="onInvite" class="iconImage">
+            <img src="../../assets/img/Invitefriends.png" alt="" />
+          </div>
+          <p @click="onInvite">Invite friends</p>
+        </div>
+        <div class="faq">
+          <div class="iconImage">
+            <img src="../../assets/img/FAQ.png" alt="" />
+          </div>
+          <p>Nongky FAQ</p>
+        </div>
+      </div>
+    </div>
+    <div v-if="isInvite === true" class="container-invite">
+      <div class="tabInvite">
+        <h4 @click="close">X</h4>
+        <h5>Friend search</h5>
+      </div>
+      <div class="tabOptions">
+        <b-form-group>
+          <b-form-radio-group
+            id="radio-group-2"
+            v-model="selected"
+            name="radio-sub-component"
+          >
+            <b-form-radio value="username">Username</b-form-radio>
+            <b-form-radio value="email">Email</b-form-radio>
+            <b-form-radio value="phone">Phone number</b-form-radio>
+          </b-form-radio-group>
+        </b-form-group>
+      </div>
+      <div class="tabSearchFriend">
+        <b-form-input
+          v-model="searchAccount"
+          :placeholder="`Enter your friends ${selected}`"
+        ></b-form-input>
+      </div>
+      <div class="tabFound">
+        <div
+          v-for="(item, index) in getFoundData"
+          :key="index"
+          class="found-list"
+        >
+          <div class="found-picture">
+            <img
+              v-if="item.user_image.length < 1"
+              src="../../assets/img/propict.png"
+              alt="#"
+            />
+            <img v-else :src="`${urlApi}${item.user_image}`" alt="#" />
+            <!-- <img src="../../assets/img/propict.png" alt="#" /> -->
+          </div>
+          <div class="found-name">
+            <h5>{{ item.user_name }}</h5>
+          </div>
+          <div class="found-add-btn">
+            <img
+              @click="invite_friend(item)"
+              src="../../assets/img/Plus.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="isRequest === true" class="friendRequest">
+      <div
+        v-for="(item, index) in getInvitationData"
+        :key="index"
+        class="req-list"
+      >
+        <div class="req-picture">
+          <img src="../../assets/img/propict.png" alt="#" />
+        </div>
+        <div class="req-name">
+          <h6>{{ item.user_name }}</h6>
+        </div>
+        <div class="btnAcc">
+          <p @click="accept([1, item])">v</p>
+          <p @click="accept([0, item])">x</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -55,25 +183,131 @@ export default {
   name: 'Left',
   data() {
     return {
+      urlApi: process.env.VUE_APP_URL,
+      isRequest: false,
       isSrc: false,
       isAdd: false,
       isExpand: false,
+      isInvite: false,
+      selected: 'username',
       searchMsg: '',
-      searchAccount: ''
+      searchFriends: '',
+      searchAccount: '',
+      errMsg: '',
+      msgInvite: '',
+      inviteCount: 0
+    }
+  },
+  watch: {
+    searchAccount(value) {
+      const params = {
+        user_email: value,
+        user_name: value,
+        user_phone: value
+      }
+
+      this.findFriends([params, value])
+        .then((result) => {})
+        .catch((error) => {
+          this.errMsg = error.msg
+          console.log(this.errMsg)
+        })
     }
   },
   computed: {
-    ...mapGetters(['getPicked'])
+    ...mapGetters([
+      'getPicked',
+      'getFoundData',
+      'userData',
+      'getFriendList',
+      'getInvitationData'
+    ])
+  },
+  created() {
+    this.getAllUser()
+    this.getFriends()
+    this.getInvitation()
+  },
+  updated() {
+    this.inviteType()
   },
   methods: {
-    ...mapActions(['PickUser']),
+    ...mapActions([
+      'PickUser',
+      'allUser',
+      'findFriends',
+      'inviteBy',
+      'erase',
+      'friendList',
+      'requestFriend',
+      'invitation',
+      'inviteResponse'
+    ]),
+    accept(val) {
+      if (val[0] === 1) {
+        this.inviteResponse(val)
+          .then((result) => {
+            alert(result.msg)
+            const data = {
+              user_id: this.userData.user_id
+            }
+            this.invitation(data)
+          })
+          .catch((error) => {
+            alert(error)
+          })
+      } else {
+        this.inviteResponse(val)
+          .then((result) => {
+            const data = {
+              user_id: this.userData.user_id
+            }
+            this.invitation(data)
+          })
+          .catch((error) => {
+            alert(error)
+          })
+      }
+    },
+    getInvitation() {
+      const data = {
+        user_id: this.userData.user_id
+      }
+      this.invitation(data)
+        .then((result) => {
+          this.inviteCount = result.length
+        })
+        .catch((error) => {
+          console.log(error.status)
+          this.msgInvite = error.status
+          this.inviteCount = 0
+        })
+    },
+    invite_friend(data) {
+      this.requestFriend([data, this.userData])
+        .then((result) => {})
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getFriends() {
+      this.friendList(this.userData)
+        .then((result) => {})
+        .catch((error) => {
+          console.log(error)
+        })
+    },
     onSearch() {
       if (this.isSrc === false) {
         this.isSrc = true
         this.isAdd = false
       } else {
         this.isSrc = false
+        this.searchMsg = ''
       }
+    },
+    inviteType() {
+      this.inviteBy(this.selected)
     },
     onAdd() {
       if (this.isAdd === false) {
@@ -81,6 +315,7 @@ export default {
         this.isSrc = false
       } else {
         this.isAdd = false
+        this.searchFriends = ''
       }
     },
     onBar() {
@@ -90,8 +325,29 @@ export default {
         this.isExpand = false
       }
     },
+    onNotif() {
+      if (this.isRequest === false) {
+        this.isRequest = true
+      } else {
+        this.isRequest = false
+      }
+    },
     onFriendPick() {
       this.PickUser(true)
+    },
+    getAllUser() {
+      this.allUser()
+    },
+    close() {
+      this.isExpand = false
+      this.isInvite = false
+      this.searchAccount = ''
+      this.selected = 'username'
+      this.erase()
+      this.getFriends()
+    },
+    onInvite() {
+      this.isInvite = true
     }
   }
 }

@@ -13,8 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'Landing',
-    component: Landing,
-    meta: { requiresVisitor: true }
+    component: Landing
   },
   {
     path: '/login',
