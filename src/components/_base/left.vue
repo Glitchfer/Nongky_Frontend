@@ -263,7 +263,8 @@ export default {
       'requestFriend',
       'invitation',
       'inviteResponse',
-      'chatList'
+      'chatList',
+      'chatRoomLanjutan'
     ]),
     getChatList() {
       this.chatList(this.userData.user_id)
@@ -352,6 +353,15 @@ export default {
     },
     onFriendPick(data) {
       this.PickUser([data, true])
+      this.chatRoomLanjutan([this.userData.user_id, data])
+        .then((result) => {
+          console.log(result)
+        })
+        .catch((error) => {
+          console.log(
+            error === 'Bad Request' ? 'Anda belum memilih kontak' : null
+          )
+        })
     },
     getAllUser() {
       this.allUser()
@@ -364,6 +374,7 @@ export default {
       this.erase()
       this.friendList(this.userData)
       this.isContacts = false
+      this.getChatList()
     },
     onInvite() {
       this.isInvite = true

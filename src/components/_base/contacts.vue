@@ -76,7 +76,7 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapActions(['friendList', 'throwContact', 'throwFirstChat']),
+    ...mapActions(['friendList', 'throwContact', 'throwFirstChat', 'chatRoom']),
     getFriends() {
       this.friendList(this.userData)
         .then((result) => {})
@@ -92,8 +92,16 @@ export default {
       this.isContactClicked = false
     },
     onContact(value) {
-      console.log(this.getContactData)
       this.throwFirstChat([value, true])
+      this.chatRoom([this.userData.user_id, this.getContactData.friend_id])
+        .then((result) => {
+          // console.log(result)
+        })
+        .catch((error) => {
+          console.log(
+            error === 'Bad Request' ? 'Anda belum memilih kontak' : null
+          )
+        })
     }
   }
 }

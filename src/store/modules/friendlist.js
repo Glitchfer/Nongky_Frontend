@@ -87,8 +87,6 @@ export default {
           .post(`${context.state.urlApi}friend/add`, form)
           .then(response => {
             resolve(response.data)
-
-            console.log(response.data)
           })
           .catch(error => {
             reject(error.response)
