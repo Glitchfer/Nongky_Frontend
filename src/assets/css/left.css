@@ -215,8 +215,20 @@
   right: 0;
   width: 90%;
   height: 100%;
-  border: 1px solid #7e98df;
   z-index: 3;
+  overflow: auto;
+  box-shadow: -3px 0px 10px #556ba888;
+}
+.container-four-1 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  border-right: 1px solid #7e98df;
+  box-shadow: inset -2px 0px 5px #556ba888;
 }
 .close2 {
   position: absolute;
@@ -269,6 +281,7 @@
   margin-right: 10px;
 }
 .sub-container-four-1 h5 {
+  text-align: left;
   margin-bottom: 0;
   width: 120px;
 }
@@ -487,4 +500,16 @@
   width: 20px;
   height: 20px;
   margin-bottom: 0;
+}
+
+.contactList {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100%;
+  border-radius: 20px 0 0 20px;
+  background-color: white;
+  z-index: 4;
+  box-shadow: -3px 0px 10px #556ba888;
 }

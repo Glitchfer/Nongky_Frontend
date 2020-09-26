@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  color: black;
+}
+.contacts {
+  font-family: 'Rubik', sans-serif;
+  border-right: 1px solid #7e98df;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  border-radius: 20px 0 0 20px;
+  box-shadow: inset -2px 0px 5px #556ba888;
+}
+.sub-contacts-1 {
+  border-radius: 20px 0 0 0;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.sub-contacts-1 h5 {
+  text-align: left;
+  margin-bottom: 0;
+  font-size: 18px;
+  padding: 10px 0;
+  padding-left: 20px;
+  color: #ffffff;
+  width: 100%;
+  height: 100%;
+  background-color: #7e98df;
+}
+
+.friend-list {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding-left: 20px;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+.friend-list .profile-picture {
+  padding: 0;
+  position: relative;
+  height: 100%;
+  width: 55px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.friend-list .profile-picture img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+}
+.friend-list .name {
+  text-align: left;
+  position: relative;
+  width: 60%;
+  margin-left: 15px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.name h5 {
+  font-size: 14px;
+  position: relative;
+  margin-bottom: 5px;
+  margin-top: 2px;
+}
+.name h5 img {
+  position: relative;
+  top: -2px;
+  margin-left: 5px;
+  width: 13px;
+  height: 13px;
+}
+.name p {
+  color: #9b9b9b;
+  font-size: 12px;
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+  line-height: 15px;
+  margin-bottom: 0;
+}
+
+.sub-contacts-3 {
+  border: 1px solid black;
+  background-color: #7e98df;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  border-radius: 20px 0 0 20px;
+}
+
+.sub-contacts-3 .back {
+  height: 15px;
+  width: 9px;
+  position: absolute;
+  cursor: pointer;
+  left: 20px;
+  top: 20px;
+  z-index: 2;
+}
+
+.cover {
+  margin-bottom: 10px;
+  position: relative;
+  width: 100%;
+  margin-bottom: 0;
+  background-color: #525353;
+  height: 150px;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+}
+.cover img {
+  top: 60px;
+  position: relative;
+  border-radius: 50px;
+  width: 100px;
+  height: 100px;
+}
+.cover h4 {
+  top: 60px;
+  position: relative;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+.options {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.options-1 {
+  background-color: #7e98df;
+  padding: 10px;
+  position: relative;
+  display: flex;
+  flex: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  border-top: 1px solid white;
+}
+.options-1 .chat {
+  background-color: white;
+  border-radius: 10px;
+  padding: 3.5px 5px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  position: relative;
+}
+.options-1 .call {
+  background-color: white;
+  border-radius: 10px;
+  padding: 3px 5px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  position: relative;
+}
+.options-1 .call img {
+  height: 30px;
+  width: 30px;
+}
+.options-1 .call p {
+  font-size: 12px;
+  margin-bottom: 0;
+  color: #7e98df;
+}
+.options-1 .chat img {
+  height: 20px;
+  width: 20px;
+  margin-bottom: 7px;
+  margin: 5px 10px 5px;
+}
+.options-1 .chat p {
+  font-size: 12px;
+  margin-bottom: 0;
+  color: #7e98df;
+}
+.options-1 .chat:hover,
+.options-1 .call:hover {
+  cursor: pointer;
+  box-shadow: inset -2px 0px 15px #556ba8d2;
+}
+.options-1 .chat:active,
+.options-1 .call:active {
+  box-shadow: -1px 0px 10px #050505e7;
+  border-radius: 15px;
+  color: #7e98df;
+}
+.options-2 {
+  position: relative;
+  display: flex;
+  height: 50px;
+  border-radius: 0 0 0 20px;
+  flex: wrap;
+  padding: 0 10px;
+  align-items: center;
+  background-color: #7e98df;
+  border-top: 1px solid #d9e1f7;
+}
+.options-2 h6 {
+  background-color: white;
+  position: relative;
+  width: 100%;
+  color: #7e98df;
+  font-size: 15px;
+  border-radius: 10px 10px 10px 20px;
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+.options-2 h6:hover {
+  cursor: pointer;
+  color: #576ca5;
+  cursor: rgb(103, 128, 197) r;
+  box-shadow: inset -2px 0px 15px #556ba8d2;
+}
+.options-2 h6:active {
+  box-shadow: none;
+  color: #ffffff;
+  background-color: #7e98df;
+}

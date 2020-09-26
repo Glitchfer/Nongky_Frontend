@@ -35,11 +35,11 @@
     </div>
     <div class="container-three">
       <div
-        v-for="(item, index) in getFriendList"
+        v-for="(item, index) in getListChat"
         :key="index"
         class="friend-list"
       >
-        <div class="profile-picture" @click="onFriendPick">
+        <div class="profile-picture" @click="onFriendPick(item)">
           <img
             v-if="item.user_image.length < 1"
             src="../../assets/img/propict.png"
@@ -47,7 +47,7 @@
           />
           <img v-else :src="`${urlApi}${item.user_image}`" alt="#" />
         </div>
-        <div class="name" @click="onFriendPick">
+        <div class="name" @click="onFriendPick(item)">
           <h5>
             {{ item.user_name }}
             <img src="../../assets/img/Union.png" alt="#" />
@@ -63,44 +63,55 @@
       </div>
     </div>
     <div v-if="isExpand === true" class="container-four">
-      <div class="back">
-        <p @click="close" class="close2"></p>
-        <img src="../../assets/img/Settings.png" alt="" />
-      </div>
-      <div class="sub-container-four-1">
-        <img src="../../assets/img/propict.png" alt="" />
-        <h5>Gloria Mckinney</h5>
-      </div>
-      <div class="sub-container-four-2">
-        <div class="contact">
-          <div class="iconImage">
-            <img src="../../assets/img/Contacts.png" alt="" />
-          </div>
-          <p>Contacts</p>
+      <div class="container-four-1">
+        <div class="back">
+          <p @click="close" class="close2"></p>
+          <img src="../../assets/img/Settings.png" alt="" />
         </div>
-        <div class="calss">
-          <div class="iconImage">
-            <img src="../../assets/img/Vector(2).png" alt="" />
-          </div>
-          <p>Calls</p>
+        <div class="sub-container-four-1">
+          <img
+            v-if="userData.user_image.length < 1"
+            src="../../assets/img/propict.png"
+            alt="#"
+          />
+          <img v-else :src="`${urlApi}${userData.user_image}`" alt="#" />
+          <h5>{{ userData.user_name }}</h5>
         </div>
-        <div class="archive">
-          <div class="iconImage">
-            <img src="../../assets/img/Rectangle37.png" alt="" />
+        <div class="sub-container-four-2">
+          <div class="contact">
+            <div class="iconImage">
+              <img
+                @click="onContacts"
+                src="../../assets/img/Contacts.png"
+                alt=""
+              />
+            </div>
+            <p @click="onContacts">Contacts</p>
           </div>
-          <p>Save messages</p>
-        </div>
-        <div class="invite">
-          <div @click="onInvite" class="iconImage">
-            <img src="../../assets/img/Invitefriends.png" alt="" />
+          <div class="calss">
+            <div class="iconImage">
+              <img src="../../assets/img/Vector(2).png" alt="" />
+            </div>
+            <p>Calls</p>
           </div>
-          <p @click="onInvite">Invite friends</p>
-        </div>
-        <div class="faq">
-          <div class="iconImage">
-            <img src="../../assets/img/FAQ.png" alt="" />
+          <div class="archive">
+            <div class="iconImage">
+              <img src="../../assets/img/Rectangle37.png" alt="" />
+            </div>
+            <p>Save messages</p>
           </div>
-          <p>Nongky FAQ</p>
+          <div class="invite">
+            <div @click="onInvite" class="iconImage">
+              <img src="../../assets/img/Invitefriends.png" alt="" />
+            </div>
+            <p @click="onInvite">Invite friends</p>
+          </div>
+          <div class="faq">
+            <div class="iconImage">
+              <img src="../../assets/img/FAQ.png" alt="" />
+            </div>
+            <p>Nongky FAQ</p>
+          </div>
         </div>
       </div>
     </div>
@@ -174,10 +185,14 @@
         </div>
       </div>
     </div>
+    <div v-if="isContacts === true" class="contactList">
+      <Contacts />
+    </div>
   </div>
 </template>
 
 <script>
+import Contacts from '../_base/contacts'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Left',
@@ -189,14 +204,19 @@ export default {
       isAdd: false,
       isExpand: false,
       isInvite: false,
+      isContacts: false,
       selected: 'username',
       searchMsg: '',
       searchFriends: '',
       searchAccount: '',
       errMsg: '',
       msgInvite: '',
-      inviteCount: 0
+      inviteCount: 0,
+      chatListData: {}
     }
+  },
+  components: {
+    Contacts
   },
   watch: {
     searchAccount(value) {
@@ -219,39 +239,44 @@ export default {
       'getPicked',
       'getFoundData',
       'userData',
-      'getFriendList',
-      'getInvitationData'
+      'getInvitationData',
+      'getListChat'
     ])
   },
   created() {
     this.getAllUser()
-    this.getFriends()
     this.getInvitation()
+    this.getChatList()
   },
   updated() {
     this.inviteType()
+    this.getInvitation()
   },
   methods: {
     ...mapActions([
       'PickUser',
       'allUser',
       'findFriends',
+      'friendList',
       'inviteBy',
       'erase',
-      'friendList',
       'requestFriend',
       'invitation',
-      'inviteResponse'
+      'inviteResponse',
+      'chatList'
     ]),
+    getChatList() {
+      this.chatList(this.userData.user_id)
+        .then((result) => {})
+        .catch((error) => {
+          alert(error)
+        })
+    },
     accept(val) {
       if (val[0] === 1) {
         this.inviteResponse(val)
           .then((result) => {
             alert(result.msg)
-            const data = {
-              user_id: this.userData.user_id
-            }
-            this.invitation(data)
           })
           .catch((error) => {
             alert(error)
@@ -285,13 +310,6 @@ export default {
     },
     invite_friend(data) {
       this.requestFriend([data, this.userData])
-        .then((result) => {})
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    getFriends() {
-      this.friendList(this.userData)
         .then((result) => {})
         .catch((error) => {
           console.log(error)
@@ -332,8 +350,8 @@ export default {
         this.isRequest = false
       }
     },
-    onFriendPick() {
-      this.PickUser(true)
+    onFriendPick(data) {
+      this.PickUser([data, true])
     },
     getAllUser() {
       this.allUser()
@@ -344,10 +362,14 @@ export default {
       this.searchAccount = ''
       this.selected = 'username'
       this.erase()
-      this.getFriends()
+      this.friendList(this.userData)
+      this.isContacts = false
     },
     onInvite() {
       this.isInvite = true
+    },
+    onContacts() {
+      this.isContacts = true
     }
   }
 }

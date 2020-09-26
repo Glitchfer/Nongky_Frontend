@@ -3,18 +3,22 @@ export default {
   state: {
     urlApi: process.env.VUE_APP_URL,
     isPicked: false,
+    pickedData: {},
     allUser: {},
     inviteBy: '',
     foundData: {},
     friendList: {},
-    invitationData: {}
+    invitationData: {},
+    contactData: {},
+    firstChat: []
   },
   mutations: {
     setFriendList(state, payload) {
       state.friendList = payload
     },
     setPicked(state, payload) {
-      state.isPicked = payload
+      state.isPicked = payload[1]
+      state.pickedData = payload[0]
     },
     setAllUser(state, payload) {
       state.allUser = payload
@@ -30,6 +34,15 @@ export default {
     },
     setInvitation(state, payload) {
       state.invitationData = payload
+    },
+    setContactData(state, payload) {
+      state.contactData = payload
+    },
+    setFirstChat(state, payload) {
+      state.firstChat = payload
+    },
+    setFirstChatData(state, payload) {
+      state.firstChat = payload
     }
   },
   actions: {
@@ -44,6 +57,7 @@ export default {
           .patch(`${context.state.urlApi}friend/invitation`, data)
           .then(response => {
             resolve(response.data)
+            context.commit('setInvitation', {})
           })
           .catch(error => {
             reject(error.response.data.msg)
@@ -164,9 +178,22 @@ export default {
     },
     erase(context) {
       context.commit('setErase')
+    },
+    throwContact(context, payload) {
+      context.commit('setContactData', payload)
+    },
+    throwFirstChat(context, payload) {
+      context.commit('setFirstChat', payload)
+      context.commit('setPicked', [context.state.pickedData, false])
     }
   },
   getters: {
+    getFirstChat(state) {
+      return state.firstChat
+    },
+    getContactData(state) {
+      return state.contactData
+    },
     getFriendList(state) {
       return state.friendList
     },
@@ -175,6 +202,9 @@ export default {
     },
     getPicked(state) {
       return state.isPicked
+    },
+    getPickedData(state) {
+      return state.pickedData
     },
     getAllUser(state) {
       return state.allUser

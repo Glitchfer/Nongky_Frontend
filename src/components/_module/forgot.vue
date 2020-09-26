@@ -78,7 +78,7 @@ export default {
     ...mapMutations([]),
     onSubmit() {
       this.forgot([this.user_email, this.form])
-        .then(result => {
+        .then((result) => {
           alert('Please check your e-mail')
           alert('try again, if you did not get your activation link')
           alert(result.msg)
@@ -89,8 +89,8 @@ export default {
             }
           })
         })
-        .catch(error => {
-          this.msg = error.data.msg
+        .catch((error) => {
+          this.msg = error
           alert(this.msg)
         })
     }
