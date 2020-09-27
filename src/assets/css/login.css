@@ -8,7 +8,10 @@
   width: 450px;
   font-family: 'Rubik', sans-serif;
   padding: 10px 30px 5px;
-  border-radius: 20px;
+  border-radius: 10px;
+  background-color: rgb(250, 245, 236);
+
+  box-shadow: inset 0px 2px 15px #6e6949b0;
 }
 .login h3:nth-of-type(1) {
   margin-bottom: 25px;
