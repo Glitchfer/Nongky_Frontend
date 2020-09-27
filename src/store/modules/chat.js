@@ -15,6 +15,9 @@ export default {
     },
     setRoomChatLanjutan(state, payload) {
       state.roomChatLanjutan = payload
+    },
+    setSocketData(state, payload) {
+      state.roomChatLanjutan.push(payload)
     }
   },
   actions: {
@@ -88,10 +91,18 @@ export default {
           message: payload[0]
         }
       } else {
-        data = {
-          sender_id: payload[1].user_id,
-          friend_id: payload[2].sender_id,
-          message: payload[0]
+        if (payload[2].sender_id !== payload[1].user_id) {
+          data = {
+            sender_id: payload[1].user_id,
+            friend_id: payload[2].sender_id,
+            message: payload[0]
+          }
+        } else {
+          data = {
+            sender_id: payload[1].user_id,
+            friend_id: payload[2].friend_id,
+            message: payload[0]
+          }
         }
       }
       return new Promise((resolve, reject) => {
@@ -116,6 +127,9 @@ export default {
     clearRoom(context) {
       context.commit('setFirstRoomChat', {})
       context.commit('setRoomChatLanjutan', {})
+    },
+    socketData(context, payload) {
+      context.commit('setSocketData', payload)
     }
   },
   getters: {

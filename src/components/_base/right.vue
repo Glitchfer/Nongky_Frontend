@@ -21,6 +21,7 @@
               Online
             </p>
             <p class="p-offline" v-else>Offline</p>
+            <p v-if="typing !== false">{{ typing }} is Typing...</p>
           </div>
           <div class="dots">
             <img src="../../assets/img/Profilemenu.png" alt />
@@ -41,7 +42,7 @@
               <img
                 v-if="item.sender_id === userData.user_id"
                 :src="`${urlApi}${item.sender_image}`"
-                alt="#"
+                :alt="item.sender_name"
                 :style="[
                   item.sender_id === userData.user_id
                     ? { right: '0' }
@@ -51,7 +52,7 @@
               <img
                 v-else-if="item.sender_id !== userData.user_id"
                 :src="`${urlApi}${item.sender_image}`"
-                alt="#"
+                :alt="item.receiver_name"
                 :style="[
                   item.sender_id === userData.user_id
                     ? { right: '0' }
@@ -77,6 +78,7 @@
             ></div>
             <div class="msg">
               <p
+                :key="index"
                 :style="[
                   item.sender_id === userData.user_id
                     ? { borderColor: 'red' }
@@ -84,6 +86,7 @@
                 ]"
               >
                 {{ item.message }}
+                <!-- {{ item2.message }} -->
               </p>
             </div>
           </div>
@@ -246,20 +249,49 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import io from 'socket.io-client'
 export default {
   name: 'Right',
   data() {
     return {
+      socket: io('http://127.0.0.1:3001'),
       urlApi: process.env.VUE_APP_URL,
       text: '',
-      isOnline: true
+      isOnline: true,
+      typing: false
+    }
+  },
+  watch: {
+    text(value) {
+      // value
+      //   ? this.socket.emit('typing', data)
+      //   : this.socket.emit('typing', false)
+      if (value) {
+        this.socket.emit('typing', {
+          userName: this.userData.user_name,
+          room: this.pickedData.room_id
+        })
+      } else {
+        this.socket.emit('typing', {
+          userName: false,
+          room: this.pickedData.room_id
+        })
+      }
     }
   },
   created() {
     this.getChatList()
-    this.getChathisto()
+  },
+  mounted() {
+    this.socket.on('chat', (data) => {
+      this.socketData(data)
+    })
+    this.socket.on('typingMessage', (data) => {
+      this.typing = data.userName
+    })
   },
   updated() {},
+
   computed: {
     ...mapGetters({
       isPick: 'getPicked',
@@ -277,11 +309,9 @@ export default {
       'throwFirstChat',
       'clearRoom',
       'postChat',
-      'chatList'
+      'chatList',
+      'socketData'
     ]),
-    getChathisto() {
-      this.chat()
-    },
     getChatList() {
       this.chatList(this.userData.user_id)
     },
@@ -301,7 +331,24 @@ export default {
         this.getChatList()
         this.text = ''
       } else {
+        const setData = {
+          room_id: this.pickedData.room_id,
+          sender_id: this.userData.user_id,
+          sender_name: this.userData.user_name,
+          sender_image: this.userData.user_image,
+          sender_email: this.userData.user_email,
+          sender_phone: this.userData.user_phone,
+          receiver_id: this.pickedData.friend_contact_id,
+          receiver_name: this.pickedData.user_name,
+          receiver_image: this.pickedData.user_image,
+          receiver_email: this.pickedData.user_email,
+          receiver_phone: this.pickedData.user_phone,
+          message: this.text
+        }
+
         this.postChat([this.text, this.userData, this.pickedData, value])
+        this.socket.emit('privateRoom', setData)
+        console.log(this.pickedData)
         this.text = ''
       }
     }
