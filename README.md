@@ -22,7 +22,7 @@
 
 ## Visit the Web
 
-You can visit the web [`here`](https://www.google.com/)
+You can visit the web [`here`](https://nongky.netlify.app/)
 
 ## Compiles and hot-reloads for development
 
