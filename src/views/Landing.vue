@@ -22,10 +22,7 @@ export default {
     ...mapGetters([])
   },
   methods: {
-    ...mapActions(['logout']),
-    onLogout() {
-      this.logout()
-    }
+    ...mapActions(['logout'])
   }
 }
 </script>

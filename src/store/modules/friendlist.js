@@ -3,6 +3,7 @@ export default {
   state: {
     urlApi: process.env.VUE_APP_URL,
     isPicked: false,
+    isPicked2: false,
     pickedData: {},
     allUser: {},
     inviteBy: '',
@@ -40,9 +41,13 @@ export default {
     },
     setFirstChat(state, payload) {
       state.firstChat = payload
+      state.isPicked2 = payload[1]
     },
     setFirstChatData(state, payload) {
       state.firstChat = payload
+    },
+    clearPicked(state, payload) {
+      state.isPicked2 = payload
     }
   },
   actions: {
@@ -200,6 +205,9 @@ export default {
     },
     getPicked(state) {
       return state.isPicked
+    },
+    getPicked2(state) {
+      return state.isPicked2
     },
     getPickedData(state) {
       return state.pickedData

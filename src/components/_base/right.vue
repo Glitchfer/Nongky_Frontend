@@ -236,10 +236,7 @@
       </div>
     </div>
 
-    <div
-      v-if="isPick === false && firstChat[1] === false"
-      class="user-pick-false"
-    >
+    <div v-if="isPick === false && isPick2 === false" class="user-pick-false">
       <div class="noChat">
         <p>Please select a chat to start messaging</p>
       </div>
@@ -295,6 +292,7 @@ export default {
   computed: {
     ...mapGetters({
       isPick: 'getPicked',
+      isPick2: 'getPicked2',
       firstChat: 'getFirstChat',
       getContactData: 'getContactData',
       pickedData: 'getPickedData',
@@ -316,7 +314,7 @@ export default {
       this.chatList(this.userData.user_id)
     },
     close() {
-      this.PickUser(false)
+      this.PickUser([{}, false])
       this.clearRoom()
       this.text = ''
     },

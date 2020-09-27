@@ -66,7 +66,10 @@
       <div class="container-four-1">
         <div class="back">
           <p @click="close" class="close2"></p>
-          <img src="../../assets/img/Settings.png" alt="" />
+          <img @click="onSetting" src="../../assets/img/Settings.png" alt="" />
+        </div>
+        <div v-if="isSetting === true" class="userSetting">
+          <Setting />
         </div>
         <div class="sub-container-four-1">
           <img
@@ -111,6 +114,9 @@
               <img src="../../assets/img/FAQ.png" alt="" />
             </div>
             <p>Nongky FAQ</p>
+          </div>
+          <div class="logout">
+            <button type="button" @click="onLogout">logout</button>
           </div>
         </div>
       </div>
@@ -193,6 +199,7 @@
 
 <script>
 import Contacts from '../_base/contacts'
+import Setting from '../_base/setting'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Left',
@@ -205,6 +212,7 @@ export default {
       isExpand: false,
       isInvite: false,
       isContacts: false,
+      isSetting: false,
       selected: 'username',
       searchMsg: '',
       searchFriends: '',
@@ -216,7 +224,8 @@ export default {
     }
   },
   components: {
-    Contacts
+    Contacts,
+    Setting
   },
   watch: {
     searchAccount(value) {
@@ -264,7 +273,8 @@ export default {
       'invitation',
       'inviteResponse',
       'chatList',
-      'chatRoomLanjutan'
+      'chatRoomLanjutan',
+      'logout'
     ]),
     getChatList() {
       this.chatList(this.userData.user_id)
@@ -381,6 +391,16 @@ export default {
     },
     onContacts() {
       this.isContacts = true
+    },
+    onLogout() {
+      this.logout()
+    },
+    onSetting() {
+      if (this.isSetting === false) {
+        this.isSetting = true
+      } else {
+        this.isSetting = false
+      }
     }
   }
 }

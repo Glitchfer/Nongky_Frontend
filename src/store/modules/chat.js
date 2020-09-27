@@ -61,7 +61,7 @@ export default {
       })
     },
     chatRoomLanjutan(context, payload) {
-      context.commit('setRoomChatLanjutan', {})
+      // context.commit('setRoomChatLanjutan', {})
       context.commit('setFirstRoomChat', {})
       const body = {
         room_id: payload[1].room_id
