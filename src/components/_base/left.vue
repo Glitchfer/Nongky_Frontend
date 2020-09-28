@@ -49,7 +49,9 @@
         </div>
         <div class="name" @click="onFriendPick(item)">
           <h5>
-            {{ item.user_name }}
+            {{
+              item.user_full_name === '' ? item.user_name : item.user_full_name
+            }}
             <img src="../../assets/img/Union.png" alt="#" />
           </h5>
           <p>Why did you do that?</p>
@@ -73,12 +75,18 @@
         </div>
         <div class="sub-container-four-1">
           <img
-            v-if="userData.user_image.length < 1"
+            v-if="getUserProfile.user_image.length < 1"
             src="../../assets/img/propict.png"
             alt="#"
           />
-          <img v-else :src="`${urlApi}${userData.user_image}`" alt="#" />
-          <h5>{{ userData.user_name }}</h5>
+          <img v-else :src="`${urlApi}${getUserProfile.user_image}`" alt="#" />
+          <h5>
+            {{
+              getUserProfile.user_full_name === ''
+                ? getUserProfile.user_name
+                : getUserProfile.user_full_name
+            }}
+          </h5>
         </div>
         <div class="sub-container-four-2">
           <div class="contact">
@@ -249,13 +257,15 @@ export default {
       'getFoundData',
       'userData',
       'getInvitationData',
-      'getListChat'
+      'getListChat',
+      'getUserProfile'
     ])
   },
   created() {
     this.getAllUser()
     this.getInvitation()
     this.getChatList()
+    this.getprofileData()
   },
   updated() {
     this.inviteType()
@@ -274,8 +284,12 @@ export default {
       'inviteResponse',
       'chatList',
       'chatRoomLanjutan',
-      'logout'
+      'logout',
+      'profileData'
     ]),
+    getprofileData() {
+      this.profileData(this.userData.user_id)
+    },
     getChatList() {
       this.chatList(this.userData.user_id)
         .then((result) => {})

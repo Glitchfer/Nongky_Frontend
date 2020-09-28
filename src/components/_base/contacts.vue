@@ -18,7 +18,9 @@
           <img v-else :src="`${urlApi}${item.user_image}`" alt="#" />
         </div>
         <div class="name" @click="onPick(item)">
-          {{ item.user_name }}
+          {{
+            item.user_full_name === '' ? item.user_name : item.user_full_name
+          }}
           <p>Online</p>
         </div>
       </div>
@@ -32,7 +34,13 @@
           alt="#"
         />
         <img v-else :src="`${urlApi}${getContactData.user_image}`" alt="#" />
-        <h4>{{ getContactData.user_name }}</h4>
+        <h4>
+          {{
+            getContactData.user_full_name === ''
+              ? getContactData.user_name
+              : getContactData.user_full_name
+          }}
+        </h4>
       </div>
       <div class="options">
         <div class="options-1">
@@ -71,7 +79,8 @@ export default {
       'userData',
       'getFriendList',
       'getContactData',
-      'getFirstChat'
+      'getFirstChat',
+      'getUserProfile'
     ])
   },
   watch: {},

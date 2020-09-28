@@ -18,6 +18,7 @@ export default {
     },
     setSocketData(state, payload) {
       state.roomChatLanjutan.push(payload)
+      console.log(state.roomChatLanjutan)
     }
   },
   actions: {

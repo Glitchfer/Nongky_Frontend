@@ -14,7 +14,11 @@
           </div>
           <div class="friend-name">
             <h5>
-              {{ pickedData.user_name }}
+              {{
+                pickedData.user_full_name === ''
+                  ? pickedData.user_name
+                  : pickedData.user_full_name
+              }}
               <img src="../../assets/img/Union.png" alt="#" />
             </h5>
             <p class="p-online" v-if="pickedData.user_login_status === 1">
@@ -42,7 +46,7 @@
               <img
                 v-if="item.sender_id === userData.user_id"
                 :src="`${urlApi}${item.sender_image}`"
-                :alt="item.sender_name"
+                alt="#"
                 :style="[
                   item.sender_id === userData.user_id
                     ? { right: '0' }
@@ -52,7 +56,7 @@
               <img
                 v-else-if="item.sender_id !== userData.user_id"
                 :src="`${urlApi}${item.sender_image}`"
-                :alt="item.receiver_name"
+                alt="#"
                 :style="[
                   item.sender_id === userData.user_id
                     ? { right: '0' }
@@ -127,7 +131,11 @@
           </div>
           <div class="friend-name">
             <h5>
-              {{ getContactData.user_name }}
+              {{
+                getContactData.user_full_name === ''
+                  ? getContactData.user_name
+                  : getContactData.user_full_name
+              }}
               <img src="../../assets/img/Union.png" alt="#" />
             </h5>
             <p class="p-online" v-if="getContactData.user_login_status === 1">
@@ -344,7 +352,7 @@ export default {
           message: this.text
         }
 
-        this.postChat([this.text, this.userData, this.pickedData, value])
+        // this.postChat([this.text, this.userData, this.pickedData, value])
         this.socket.emit('privateRoom', setData)
         console.log(this.pickedData)
         this.text = ''

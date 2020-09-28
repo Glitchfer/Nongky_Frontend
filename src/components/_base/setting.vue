@@ -2,14 +2,14 @@
   <div class="setting">
     <div class="sub-setting-1">
       <img
-        v-if="userData.user_image.length < 1"
+        v-if="getUserProfile.user_image.length < 1"
         src="../../assets/img/propict.png"
         alt="#"
       />
-      <img v-else :src="`${urlApi}${userData.user_image}`" alt="#" />
+      <img v-else :src="`${urlApi}${getUserProfile.user_image}`" alt="#" />
       <br />
       <input v-if="isInput === true" type="file" @change="imgUpload" />
-      <h5 v-if="isInput === false">{{ userData.user_name }}</h5>
+      <h5 v-if="isInput === false">{{ getUserProfile.user_full_name }}</h5>
       <br />
       <input
         v-if="isInput === true"
@@ -20,7 +20,11 @@
       <hr />
       <h6>Account</h6>
       <h6 v-if="isInput === false">
-        {{ userData.user_phone.length > 8 ? '+' + userData.user_phone : '-' }}
+        {{
+          getUserProfile.user_phone.length > 8
+            ? '+' + getUserProfile.user_phone
+            : '-'
+        }}
       </h6>
       <input
         v-if="isInput === true"
@@ -30,7 +34,7 @@
       />
       <p>Phone number</p>
       <h6 v-if="isInput === false">
-        {{ '@' + userData.user_name }}
+        {{ '@' + getUserProfile.user_name }}
       </h6>
       <input
         v-if="isInput === true"
@@ -40,7 +44,7 @@
       />
       <p>Username</p>
       <h6 v-if="isInput === false">
-        I'm senior frontend developer from tokopedia
+        {{ getUserProfile.user_bio }}
       </h6>
       <input
         v-if="isInput === true"
@@ -53,12 +57,8 @@
         <a v-if="isInput === false" @click="onChange" href="#"
           >Tab to change your data</a
         >
-        <a @click="onSubmit('submit')" v-if="isInput === true" href="#"
-          >Submit</a
-        >
-        <a @click="onSubmit('cancel')" v-if="isInput === true" href="#"
-          >Cancel</a
-        >
+        <a @click="onSubmit" v-if="isInput === true" href="#">Submit</a>
+        <a @click="onCancel" v-if="isInput === true" href="#">Cancel</a>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@ export default {
       urlApi: process.env.VUE_APP_URL,
       isInput: false,
       form: {
-        user_image: '',
+        image: '',
         user_full_name: '',
         user_phone: '',
         user_name: '',
@@ -80,23 +80,54 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    this.profileData(this.userData.user_id)
+  },
   computed: {
-    ...mapGetters(['userData'])
+    ...mapGetters(['userData', 'getUserProfile'])
   },
   watch: {},
   methods: {
-    ...mapActions([]),
+    ...mapActions(['patchFoto', 'profileData']),
     onChange() {
       this.isInput = true
     },
-    onSubmit(val) {
-      if (val === 'submit') {
-        console.log('change success')
-      } else {
-        this.form = {}
-        this.isInput = false
+    onSubmit() {
+      const data = new FormData()
+      data.append('image', this.form.image)
+      data.append('user_full_name', this.form.user_full_name)
+      data.append('user_phone', this.form.user_phone)
+      data.append('user_name', this.form.user_name)
+      data.append('user_bio', this.form.user_bio)
+      this.patchFoto([this.userData.user_id, data])
+        .then((result) => {
+          alert(result)
+          this.profileData(this.userData.user_id)
+          this.form = {
+            image: '',
+            user_full_name: '',
+            user_phone: '',
+            user_name: '',
+            user_bio: ''
+          }
+        })
+        .catch((error) => {
+          alert(error)
+        })
+    },
+    onCancel() {
+      this.form = {
+        image: '',
+        user_full_name: '',
+        user_phone: '',
+        user_name: '',
+        user_bio: ''
       }
+    },
+    imgUpload(event) {
+      this.form.image = event.target.files[0]
+      // const data = new FormData()
+      // data.append('image', this.form.image)
     }
   }
 }
