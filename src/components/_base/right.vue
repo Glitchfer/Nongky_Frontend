@@ -28,7 +28,33 @@
             <p v-if="typing !== false">{{ typing }} is Typing...</p>
           </div>
           <div class="dots">
-            <img src="../../assets/img/Profilemenu.png" alt />
+            <img src="../../assets/img/Profilemenu.png" alt @click="onDots" />
+            <div v-if="isDots === true" class="sub-dots">
+              <div class="sub-dots-call">
+                <img src="../../assets/img/call2.png" alt="" />
+                <h6>Call</h6>
+              </div>
+              <div class="sub-dots-delete">
+                <img src="../../assets/img/del.png" alt="" />
+                <h6>Delete chat history</h6>
+              </div>
+              <div class="sub-dots-mute">
+                <img src="../../assets/img/mute.png" alt="" />
+                <h6>Mute notification</h6>
+              </div>
+              <div class="sub-dots-search">
+                <img src="../../assets/img/Search1.png" alt="" />
+                <h6>Search</h6>
+              </div>
+              <div class="sub-dots-profile">
+                <img
+                  @click="friendProfile('open')"
+                  src="../../assets/img/Contacts2.png"
+                  alt=""
+                />
+                <h6 @click="friendProfile('open')">Friend profile</h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -110,6 +136,13 @@
             <img src="../../assets/img/Group81.png" alt />
           </div>
         </div>
+      </div>
+      <div v-if="isFriendProfile === true" class="fP">
+        <img
+          @click="friendProfile('back')"
+          src="../../assets/img/back.png"
+          alt=""
+        />
       </div>
     </div>
 
@@ -263,14 +296,13 @@ export default {
       urlApi: process.env.VUE_APP_URL,
       text: '',
       isOnline: true,
-      typing: false
+      typing: false,
+      isDots: false,
+      isFriendProfile: false
     }
   },
   watch: {
     text(value) {
-      // value
-      //   ? this.socket.emit('typing', data)
-      //   : this.socket.emit('typing', false)
       if (value) {
         this.socket.emit('typing', {
           userName: this.userData.user_name,
@@ -318,6 +350,13 @@ export default {
       'chatList',
       'socketData'
     ]),
+    friendProfile(val) {
+      if (val === 'open') {
+        this.isFriendProfile = true
+      } else {
+        this.isFriendProfile = false
+      }
+    },
     getChatList() {
       this.chatList(this.userData.user_id)
     },
@@ -354,6 +393,13 @@ export default {
         this.postChat([this.text, this.userData, this.pickedData, value])
         this.socket.emit('privateRoom', setData)
         this.text = ''
+      }
+    },
+    onDots() {
+      if (this.isDots === false) {
+        this.isDots = true
+      } else {
+        this.isDots = false
       }
     }
   }

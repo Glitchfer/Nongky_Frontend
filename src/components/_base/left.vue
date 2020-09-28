@@ -395,6 +395,7 @@ export default {
           )
         })
       this.socket.emit('setRoom', data)
+      // this.socket.emit('changeRoom', { newroom: data.room_id })
     },
     getAllUser() {
       this.allUser()
