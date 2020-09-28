@@ -376,6 +376,7 @@ export default {
       }
     },
     onFriendPick(data) {
+      console.log(data)
       this.PickUser([data, true])
       this.chatRoomLanjutan([this.userData.user_id, data])
         .then((result) => {

@@ -57,8 +57,8 @@
         <a v-if="isInput === false" @click="onChange" href="#"
           >Tab to change your data</a
         >
-        <a @click="onSubmit" v-if="isInput === true" href="#">Submit</a>
-        <a @click="onCancel" v-if="isInput === true" href="#">Cancel</a>
+        <p class="submit" @click="onSubmit" v-if="isInput === true">Submit</p>
+        <p class="cancel" @click="onCancel" v-if="isInput === true">Cancel</p>
       </div>
     </div>
   </div>

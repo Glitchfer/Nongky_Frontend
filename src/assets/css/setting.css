@@ -43,6 +43,8 @@
 }
 .change {
   text-align: left;
+  display: flex;
+  flex-wrap: wrap;
 }
 .sub-setting-1 a {
   text-align: left;
@@ -72,4 +74,23 @@
 .sub-setting-1 input:nth-of-type(2) {
   width: 150px;
   border-radius: 10px;
+}
+
+.change p:nth-of-type(1),
+.change p:nth-of-type(2) {
+  margin-top: 5px;
+  color: blue;
+  margin-right: 5px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px solid rgb(0, 0, 0);
+  cursor: pointer;
+}
+.change p:nth-of-type(1):hover {
+  color: rgb(3, 194, 3);
+  box-shadow: inset 0px 2px 5px #316634b0;
+}
+.change p:nth-of-type(2):hover {
+  color: red;
+  box-shadow: inset 0px 2px 5px #532135b0;
 }

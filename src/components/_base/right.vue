@@ -351,10 +351,8 @@ export default {
           receiver_phone: this.pickedData.user_phone,
           message: this.text
         }
-
-        // this.postChat([this.text, this.userData, this.pickedData, value])
+        this.postChat([this.text, this.userData, this.pickedData, value])
         this.socket.emit('privateRoom', setData)
-        console.log(this.pickedData)
         this.text = ''
       }
     }
