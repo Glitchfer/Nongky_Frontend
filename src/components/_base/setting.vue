@@ -60,6 +60,30 @@
         <p class="submit" @click="onSubmit" v-if="isInput === true">Submit</p>
         <p class="cancel" @click="onCancel" v-if="isInput === true">Cancel</p>
       </div>
+      <hr />
+      <div class="location">
+        <h5>Location</h5>
+        <a @click="showLocation" href="#"> Show your location </a>
+      </div>
+    </div>
+    <div v-if="isLocation === true" class="maps">
+      <p @click="off">x</p>
+      <div class="sub-maps">
+        <GmapMap
+          :center="coordinate"
+          :zoom="12"
+          map-type-id="terrain"
+          style="width: 500px; height: 300px"
+        >
+          <GmapMarker
+            :position="coordinate"
+            :clickable="true"
+            :draggable="true"
+            @click="onMarker"
+            icon
+          />
+        </GmapMap>
+      </div>
     </div>
   </div>
 </template>
@@ -71,17 +95,32 @@ export default {
     return {
       urlApi: process.env.VUE_APP_URL,
       isInput: false,
+      isLocation: false,
       form: {
         image: '',
         user_full_name: '',
         user_phone: '',
         user_name: '',
         user_bio: ''
+      },
+      coordinate: {
+        lat: 0,
+        lng: 0
       }
     }
   },
   created() {
     this.profileData(this.userData.user_id)
+    this.$getLocation()
+      .then((coordinates) => {
+        this.coordinate = {
+          lat: coordinates.lat,
+          lng: coordinates.lng
+        }
+      })
+      .catch((error) => {
+        alert(error)
+      })
   },
   computed: {
     ...mapGetters(['userData', 'getUserProfile'])
@@ -89,6 +128,16 @@ export default {
   watch: {},
   methods: {
     ...mapActions(['patchFoto', 'profileData']),
+    onMarker(position) {
+      this.coordinate = {
+        lat: position.latLng.lat(),
+        lng: position.latLng.lng()
+      }
+      console.log(this.coordinate)
+    },
+    showLocation() {
+      this.isLocation = true
+    },
     onChange() {
       this.isInput = true
     },
@@ -123,14 +172,21 @@ export default {
         user_name: '',
         user_bio: ''
       }
+      this.isInput = false
     },
     imgUpload(event) {
       this.form.image = event.target.files[0]
-      // const data = new FormData()
-      // data.append('image', this.form.image)
+    },
+    off() {
+      this.isLocation = false
     }
   }
 }
 </script>
 
 <style scoped src="../../assets/css/setting.css"></style>
+<style scoped>
+.vue-map-container {
+  width: 100% !important;
+}
+</style>

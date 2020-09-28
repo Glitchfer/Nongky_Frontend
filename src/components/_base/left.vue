@@ -209,11 +209,13 @@
 import Contacts from '../_base/contacts'
 import Setting from '../_base/setting'
 import { mapGetters, mapActions } from 'vuex'
+import io from 'socket.io-client'
 export default {
   name: 'Left',
   data() {
     return {
       urlApi: process.env.VUE_APP_URL,
+      socket: io('http://127.0.0.1:3001'),
       isRequest: false,
       isSrc: false,
       isAdd: false,
@@ -267,6 +269,11 @@ export default {
     this.getChatList()
     this.getprofileData()
   },
+  mounted() {
+    this.socket.on('chat', (data) => {
+      this.socketData(data)
+    })
+  },
   updated() {
     this.inviteType()
     this.getInvitation()
@@ -285,7 +292,8 @@ export default {
       'chatList',
       'chatRoomLanjutan',
       'logout',
-      'profileData'
+      'profileData',
+      'socketData'
     ]),
     getprofileData() {
       this.profileData(this.userData.user_id)
@@ -376,7 +384,6 @@ export default {
       }
     },
     onFriendPick(data) {
-      console.log(data)
       this.PickUser([data, true])
       this.chatRoomLanjutan([this.userData.user_id, data])
         .then((result) => {
@@ -387,6 +394,7 @@ export default {
             error === 'Bad Request' ? 'Anda belum memilih kontak' : null
           )
         })
+      this.socket.emit('setRoom', data)
     },
     getAllUser() {
       this.allUser()

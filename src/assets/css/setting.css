@@ -1,5 +1,5 @@
 .sub-setting-1 {
-  top: 50px;
+  top: 20px;
   position: relative;
   padding: 0 20px;
 }
@@ -12,13 +12,13 @@
 }
 
 .sub-setting-1 h5 {
-  font-size: 18px;
+  font-size: 16px;
   top: 50px;
   margin-top: 12px;
   margin-bottom: 0;
 }
 .sub-setting-1 p {
-  font-size: 11px;
+  font-size: 12px;
   padding-top: 0;
   margin-bottom: 0;
   text-align: left;
@@ -26,12 +26,13 @@
 .sub-setting-1 h6 {
   margin-bottom: 10px;
   text-align: left;
+  font-size: 14px;
 }
 
 .sub-setting-1 h6:nth-of-type(2),
 .sub-setting-1 h6:nth-of-type(3),
 .sub-setting-1 h6:nth-of-type(4) {
-  font-size: 13px;
+  font-size: 12px;
   margin: 15px 0 0 0;
 }
 
@@ -93,4 +94,48 @@
 .change p:nth-of-type(2):hover {
   color: red;
   box-shadow: inset 0px 2px 5px #532135b0;
+}
+
+.location {
+  top: -10px;
+  position: relative;
+  text-align: left;
+  padding: 0;
+}
+.location h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.location a {
+  position: relative;
+  top: -5px;
+}
+.maps {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(173, 202, 241, 0.603);
+}
+
+.sub-maps {
+  border: 1px solid black;
+  width: 100%;
+  height: 303px;
+  background-color: white;
+}
+
+.maps p {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #7e98df;
+  color: white;
+  padding: 0 8px;
+  border-radius: 50%;
+  cursor: pointer;
 }
