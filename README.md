@@ -1,6 +1,6 @@
 <h1 align='center'>Vue JS - Nongky</h1>
 
-#A system website app for... [More about Vue](https://vuejs.org/)
+Nongky adalah salah satu aplikasi berbasis website yang digunakan untuk bertukar pesan secara realtime dengan orang-orang yang dikenal. Selain itu nongky apps juga dapat digunakan untuk mencari teman baru. [More about Vue](https://vuejs.org/)
 
 ## Built With
 
