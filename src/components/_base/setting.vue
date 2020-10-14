@@ -65,6 +65,36 @@
         <h5>Location</h5>
         <a @click="showLocation" href="#"> Show your location </a>
       </div>
+      <div class="collections">
+        <div class="sub-collection">
+          <h6>Collections</h6>
+        </div>
+        <div class="sub-collection-2">
+          <div class="cont">
+            <div
+              class="sub-cont"
+              v-for="(item, index) in getUserCollection"
+              :key="index"
+            >
+              <img
+                v-if="
+                  item.collection_type === 'image/jpeg' ||
+                    item.collection_type === 'image/png'
+                "
+                :src="`${urlApi}${item.collection}`"
+                @click="onCollection(item)"
+              />
+              <video
+                v-if="item.collection_type === 'video/mp4'"
+                :src="`${urlApi}${item.collection}`"
+                @click="onCollection(item)"
+              ></video>
+            </div>
+          </div>
+          <input type="file" @change="onUpload" />
+        </div>
+        <h1>+</h1>
+      </div>
     </div>
     <div v-if="isLocation === true" class="maps">
       <p @click="off">x</p>
@@ -85,6 +115,23 @@
         </GmapMap>
       </div>
     </div>
+    <div v-if="isCollection === true" class="collectionSellect">
+      <div class="sub-sellection">
+        <h4 @click="tutup">X</h4>
+        <a href="#" @click="deleteFile">Delete file</a>
+        <img
+          v-if="
+            this.collection.type === 'image/jpeg' ||
+              this.collection.type === 'image/png'
+          "
+          :src="`${urlApi}${collection.fileName}`"
+        />
+        <video
+          v-if="this.collection.type === 'video/mp4'"
+          :src="`${urlApi}${collection.fileName}`"
+        ></video>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -96,6 +143,12 @@ export default {
       urlApi: process.env.VUE_APP_URL,
       isInput: false,
       isLocation: false,
+      isCollection: false,
+      collection: {
+        fileName: '',
+        type: '',
+        id: ''
+      },
       form: {
         image: '',
         user_full_name: '',
@@ -112,22 +165,75 @@ export default {
   created() {
     this.profileData(this.userData.user_id)
     this.$getLocation()
-      .then((coordinates) => {
+      .then(coordinates => {
         this.coordinate = {
           lat: coordinates.lat,
           lng: coordinates.lng
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(error)
       })
+    this.getCollection(this.userData.user_id)
   },
   computed: {
-    ...mapGetters(['userData', 'getUserProfile'])
+    ...mapGetters(['userData', 'getUserProfile', 'getUserCollection'])
   },
   watch: {},
   methods: {
-    ...mapActions(['patchFoto', 'profileData']),
+    ...mapActions([
+      'patchFoto',
+      'profileData',
+      'getCollection',
+      'deleteCollection',
+      'addCollection'
+    ]),
+    onUpload(event) {
+      console.log(event.target.files[0])
+      const data = new FormData()
+      data.append('image', event.target.files[0])
+      this.addCollection([this.userData.user_id, data])
+        .then(result => {
+          this.getCollection(this.userData.user_id)
+          this.$bvToast.toast(result.msg, {
+            title: 'Success',
+            variant: 'success',
+            solid: true
+          })
+        })
+        .catch(error => {
+          this.$bvToast.toast(`${error}`, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
+        })
+    },
+    onCollection(item) {
+      this.collection.fileName = item.collection
+      this.collection.type = item.collection_type
+      this.collection.id = item.collection_id
+      this.isCollection = true
+    },
+    tutup() {
+      this.collection.fileName = ''
+      this.collection.type = ''
+      this.collection.id = ''
+      this.isCollection = false
+    },
+    deleteFile() {
+      this.deleteCollection([this.collection.id, this.$bvToast])
+        .then(result => {
+          this.getCollection(this.userData.user_id)
+        })
+        .catch(error => {
+          this.$bvToast.toast(`${error}`, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
+        })
+    },
     onMarker(position) {
       this.coordinate = {
         lat: position.latLng.lat(),
@@ -149,7 +255,7 @@ export default {
       data.append('user_name', this.form.user_name)
       data.append('user_bio', this.form.user_bio)
       this.patchFoto([this.userData.user_id, data])
-        .then((result) => {
+        .then(result => {
           alert(result)
           this.profileData(this.userData.user_id)
           this.form = {
@@ -160,7 +266,7 @@ export default {
             user_bio: ''
           }
         })
-        .catch((error) => {
+        .catch(error => {
           alert(error)
         })
     },

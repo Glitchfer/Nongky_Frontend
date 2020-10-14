@@ -21,7 +21,7 @@
           {{
             item.user_full_name === '' ? item.user_name : item.user_full_name
           }}
-          <p>Online</p>
+          <p>Offline</p>
         </div>
       </div>
     </div>
@@ -42,6 +42,38 @@
           }}
         </h4>
       </div>
+      <div v-if="isCollection === false" class="contDetail">
+        <h6>Phone Number</h6>
+        <p>{{ getContactData.user_phone }}</p>
+        <h6>Username</h6>
+        <p>@{{ getContactData.user_name }}</p>
+        <h6>Bio</h6>
+        <p>{{ getContactData.user_bio }}</p>
+        <h6>Location</h6>
+        <p>{{ getContactData.user_lat }}{{ getContactData.user_lng }}</p>
+        <a href="#" @click="showLocation">show location</a>
+      </div>
+      <div v-if="isCollection === true" class="collection">
+        <div class="sub-collection">
+          <div class="sub-collection-1">
+            <div v-for="(item, index) in getFriendCollections" :key="index">
+              <img
+                v-if="
+                  item.collection_type === 'image/jpeg' ||
+                    item.collection_type === 'image/png'
+                "
+                :src="`${urlApi}${item.collection}`"
+                @click="onCollection(item)"
+              />
+              <video
+                v-if="item.collection_type === 'video/mp4'"
+                :src="`${urlApi}${item.collection}`"
+                @click="onCollection(item)"
+              ></video>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="options">
         <div class="options-1">
           <div @click="onContact('first-chat')" class="chat">
@@ -53,9 +85,44 @@
             <p>Free call</p>
           </div>
         </div>
-        <div class="options-2">
+        <div class="options-2" @click="photos">
           <h6>Photo & videos</h6>
         </div>
+      </div>
+      <div v-if="isLocation === true" class="maps">
+        <p @click="off">x</p>
+        <div class="sub-maps">
+          <GmapMap
+            :center="coordinate"
+            :zoom="12"
+            map-type-id="terrain"
+            style="width: 500px; height: 300px"
+          >
+            <GmapMarker
+              :position="coordinate"
+              :clickable="true"
+              :draggable="true"
+              @click="onMarker"
+              icon
+            />
+          </GmapMap>
+        </div>
+      </div>
+    </div>
+    <div v-if="isSellection === true" class="collectionSellect">
+      <div class="sub-sellection">
+        <h4 @click="tutup">X</h4>
+        <img
+          v-if="
+            this.collection.type === 'image/jpeg' ||
+              this.collection.type === 'image/png'
+          "
+          :src="`${urlApi}${collection.fileName}`"
+        />
+        <video
+          v-if="this.collection.type === 'video/mp4'"
+          :src="`${urlApi}${collection.fileName}`"
+        ></video>
       </div>
     </div>
   </div>
@@ -68,11 +135,50 @@ export default {
   data() {
     return {
       urlApi: process.env.VUE_APP_URL,
-      isContactClicked: false
+      isContactClicked: false,
+      isLocation: false,
+      coordinate: {
+        lat: 0,
+        lng: 0
+      },
+      isCollection: false,
+      friendId: '',
+      collection: {
+        fileName: '',
+        type: '',
+        id: ''
+      },
+      isSellection: false
+    }
+  },
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus()
+      }
+    },
+    fontsize: {
+      bind: function(el, binding) {
+        if (binding.arg === 'small') {
+          el.style.fontSize = '5px'
+        } else {
+          el.style.fontSize = '25px'
+        }
+      }
     }
   },
   created() {
     this.getFriends()
+    this.$getLocation()
+      .then(coordinates => {
+        this.coordinate = {
+          lat: coordinates.lat,
+          lng: coordinates.lng
+        }
+      })
+      .catch(error => {
+        alert(error)
+      })
   },
   computed: {
     ...mapGetters([
@@ -80,21 +186,62 @@ export default {
       'getFriendList',
       'getContactData',
       'getFirstChat',
-      'getUserProfile'
+      'getUserProfile',
+      'getFriendCollections'
     ])
   },
   watch: {},
   methods: {
-    ...mapActions(['friendList', 'throwContact', 'throwFirstChat', 'chatRoom']),
+    ...mapActions([
+      'friendList',
+      'throwContact',
+      'throwFirstChat',
+      'chatRoom',
+      'friendCollections'
+    ]),
+    onCollection(item) {
+      this.collection.fileName = item.collection
+      this.collection.type = item.collection_type
+      this.collection.id = item.collection_id
+      this.isSellection = true
+    },
+    tutup() {
+      this.collection.fileName = ''
+      this.collection.type = ''
+      this.collection.id = ''
+      this.isSellection = false
+    },
+    onMarker(position) {
+      this.coordinate = {
+        lat: position.latLng.lat(),
+        lng: position.latLng.lng()
+      }
+      console.log(this.coordinate)
+    },
+    showLocation() {
+      this.isLocation = true
+    },
+    off() {
+      this.isLocation = false
+    },
+    photos() {
+      if (this.isCollection === false) {
+        this.isCollection = true
+        this.friendCollections(this.friendId)
+      } else {
+        this.isCollection = false
+      }
+    },
     getFriends() {
       this.friendList(this.userData)
-        .then((result) => {})
-        .catch((error) => {
+        .then(result => {})
+        .catch(error => {
           console.log(error)
         })
     },
     onPick(data) {
       this.throwContact(data)
+      this.friendId = data.friend_id
       this.isContactClicked = true
     },
     back() {
@@ -103,10 +250,10 @@ export default {
     onContact(value) {
       this.throwFirstChat([value, true])
       this.chatRoom([this.userData.user_id, this.getContactData.friend_id])
-        .then((result) => {
+        .then(result => {
           // console.log(result)
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(
             error === 'Bad Request' ? 'Anda belum memilih kontak' : null
           )
@@ -117,3 +264,8 @@ export default {
 </script>
 
 <style scoped src="../../assets/css/contacts.css"></style>
+<style scoped>
+.vue-map-container {
+  width: 100% !important;
+}
+</style>

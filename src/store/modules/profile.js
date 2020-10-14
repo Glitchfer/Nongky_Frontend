@@ -2,11 +2,22 @@ import axios from 'axios'
 export default {
   state: {
     urlApi: process.env.VUE_APP_URL,
-    userProfileData: {}
+    userProfileData: {},
+    userCollection: {},
+    friendCollections: {}
   },
   mutations: {
     setUserProfileData(state, payload) {
       state.userProfileData = payload
+    },
+    setUserCollection(state, payload) {
+      state.userCollection = payload
+    },
+    setFriendCollections(state, payload) {
+      state.friendCollections = payload
+    },
+    clearCollections(state, payload) {
+      state.friendCollections = {}
     }
   },
   actions: {
@@ -44,11 +55,89 @@ export default {
             }
           })
       })
+    },
+    getCollection(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`${context.state.urlApi}collection/${payload}`)
+          .then(response => {
+            resolve(response.data)
+            context.commit('setUserCollection', response.data.data)
+          })
+          .catch(error => {
+            if (error.response === undefined) {
+              alert('Tidak dapat terhubung ke server')
+            } else {
+              reject(error.response.data.msg)
+            }
+          })
+      })
+    },
+    addCollection(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post(`${context.state.urlApi}collection/${payload[0]}`, payload[1])
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            if (error.response === undefined) {
+              alert('Tidak dapat terhubung ke server')
+            } else {
+              reject(error.response.data.msg)
+            }
+          })
+      })
+    },
+    deleteCollection(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`${context.state.urlApi}collection/${payload[0]}`)
+          .then(response => {
+            payload[1].toast(`${response.data.msg}`, {
+              title: 'Success',
+              variant: 'success',
+              solid: true
+            })
+            resolve(response.data)
+          })
+          .catch(error => {
+            if (error.response === undefined) {
+              alert('Tidak dapat terhubung ke server')
+            } else {
+              reject(error.response.data.msg)
+            }
+          })
+      })
+    },
+    friendCollections(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`${context.state.urlApi}collection/${payload}`)
+          .then(response => {
+            resolve(response.data)
+            context.commit('setFriendCollections', response.data.data)
+          })
+          .catch(error => {
+            if (error.response === undefined) {
+              alert('Tidak dapat terhubung ke server')
+            } else {
+              context.commit('clearCollections')
+              reject(error.response.data.msg)
+            }
+          })
+      })
     }
   },
   getters: {
     getUserProfile(state) {
       return state.userProfileData
+    },
+    getUserCollection(state) {
+      return state.userCollection
+    },
+    getFriendCollections(state) {
+      return state.friendCollections
     }
   }
 }
