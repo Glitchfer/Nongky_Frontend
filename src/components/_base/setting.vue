@@ -186,7 +186,8 @@ export default {
       'profileData',
       'getCollection',
       'deleteCollection',
-      'addCollection'
+      'addCollection',
+      'updateLocation'
     ]),
     onUpload(event) {
       console.log(event.target.files[0])
@@ -239,7 +240,7 @@ export default {
         lat: position.latLng.lat(),
         lng: position.latLng.lng()
       }
-      console.log(this.coordinate)
+      this.updateLocation([this.userData.user_id, this.coordinate])
     },
     showLocation() {
       this.isLocation = true

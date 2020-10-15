@@ -127,6 +127,29 @@ export default {
             }
           })
       })
+    },
+    updateLocation(context, payload) {
+      console.log(payload[1])
+      const data = {
+        user_lat: payload[1].lat,
+        user_lng: payload[1].lng,
+        id: payload[0]
+      }
+      return new Promise((resolve, reject) => {
+        axios
+          .patch(`${context.state.urlApi}users/location`, data)
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            if (error.response === undefined) {
+              alert('Tidak dapat terhubung ke server')
+            } else {
+              context.commit('clearCollections')
+              reject(error.response.data.msg)
+            }
+          })
+      })
     }
   },
   getters: {

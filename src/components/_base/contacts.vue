@@ -50,7 +50,7 @@
         <h6>Bio</h6>
         <p>{{ getContactData.user_bio }}</p>
         <h6>Location</h6>
-        <p>{{ getContactData.user_lat }}{{ getContactData.user_lng }}</p>
+        <p>{{ getContactData.user_lat }}, {{ getContactData.user_lng }}</p>
         <a href="#" @click="showLocation">show location</a>
       </div>
       <div v-if="isCollection === true" class="collection">
@@ -93,16 +93,21 @@
         <p @click="off">x</p>
         <div class="sub-maps">
           <GmapMap
-            :center="coordinate"
-            :zoom="12"
+            :center="{
+              lat: Number(getContactData.user_lat),
+              lng: Number(getContactData.user_lng)
+            }"
+            :zoom="16"
             map-type-id="terrain"
             style="width: 500px; height: 300px"
           >
             <GmapMarker
-              :position="coordinate"
-              :clickable="true"
-              :draggable="true"
-              @click="onMarker"
+              :position="{
+                lat: Number(getContactData.user_lat),
+                lng: Number(getContactData.user_lng)
+              }"
+              :clickable="false"
+              :draggable="false"
               icon
             />
           </GmapMap>
@@ -137,10 +142,6 @@ export default {
       urlApi: process.env.VUE_APP_URL,
       isContactClicked: false,
       isLocation: false,
-      coordinate: {
-        lat: 0,
-        lng: 0
-      },
       isCollection: false,
       friendId: '',
       collection: {
@@ -169,16 +170,6 @@ export default {
   },
   created() {
     this.getFriends()
-    this.$getLocation()
-      .then(coordinates => {
-        this.coordinate = {
-          lat: coordinates.lat,
-          lng: coordinates.lng
-        }
-      })
-      .catch(error => {
-        alert(error)
-      })
   },
   computed: {
     ...mapGetters([
@@ -210,13 +201,6 @@ export default {
       this.collection.type = ''
       this.collection.id = ''
       this.isSellection = false
-    },
-    onMarker(position) {
-      this.coordinate = {
-        lat: position.latLng.lat(),
-        lng: position.latLng.lng()
-      }
-      console.log(this.coordinate)
     },
     showLocation() {
       this.isLocation = true

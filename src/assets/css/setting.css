@@ -228,6 +228,7 @@
   bottom: 0;
   right: 0;
   border: none;
+  font-size: 0px;
   width: 30px !important;
   height: 20px;
   border-radius: 10px 0 10px 0 !important;
