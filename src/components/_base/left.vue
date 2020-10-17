@@ -246,8 +246,8 @@ export default {
       }
 
       this.findFriends([params, value])
-        .then((result) => {})
-        .catch((error) => {
+        .then(result => {})
+        .catch(error => {
           this.errMsg = error.msg
           console.log(this.errMsg)
         })
@@ -270,7 +270,7 @@ export default {
     this.getprofileData()
   },
   mounted() {
-    this.socket.on('chat', (data) => {
+    this.socket.on('chat', data => {
       this.socketData(data)
     })
   },
@@ -300,29 +300,29 @@ export default {
     },
     getChatList() {
       this.chatList(this.userData.user_id)
-        .then((result) => {})
-        .catch((error) => {
+        .then(result => {})
+        .catch(error => {
           alert(error)
         })
     },
     accept(val) {
       if (val[0] === 1) {
         this.inviteResponse(val)
-          .then((result) => {
+          .then(result => {
             alert(result.msg)
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error)
           })
       } else {
         this.inviteResponse(val)
-          .then((result) => {
+          .then(result => {
             const data = {
               user_id: this.userData.user_id
             }
             this.invitation(data)
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error)
           })
       }
@@ -332,10 +332,10 @@ export default {
         user_id: this.userData.user_id
       }
       this.invitation(data)
-        .then((result) => {
+        .then(result => {
           this.inviteCount = result.length
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.status)
           this.msgInvite = error.status
           this.inviteCount = 0
@@ -343,8 +343,8 @@ export default {
     },
     invite_friend(data) {
       this.requestFriend([data, this.userData])
-        .then((result) => {})
-        .catch((error) => {
+        .then(result => {})
+        .catch(error => {
           console.log(error)
         })
     },
@@ -370,6 +370,7 @@ export default {
       }
     },
     onBar() {
+      this.getChatList()
       if (this.isExpand === false) {
         this.isExpand = true
       } else {
@@ -384,12 +385,13 @@ export default {
       }
     },
     onFriendPick(data) {
+      this.getChatList()
       this.PickUser([data, true])
       this.chatRoomLanjutan([this.userData.user_id, data])
-        .then((result) => {
+        .then(result => {
           console.log(result)
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(
             error === 'Bad Request' ? 'Anda belum memilih kontak' : null
           )

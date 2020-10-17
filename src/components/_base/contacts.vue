@@ -21,7 +21,15 @@
           {{
             item.user_full_name === '' ? item.user_name : item.user_full_name
           }}
-          <p>Offline</p>
+          <p
+            :style="[
+              item.user_login_status === 0
+                ? { color: 'rgb(129, 129, 129)' }
+                : { color: 'rgb(0, 184, 0)' }
+            ]"
+          >
+            {{ item.user_login_status === 0 ? 'Offline' : 'Online' }}
+          </p>
         </div>
       </div>
     </div>

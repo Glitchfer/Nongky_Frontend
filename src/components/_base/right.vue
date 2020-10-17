@@ -323,7 +323,7 @@ export default {
     // this.socket.on('chat', (data) => {
     //   this.socketData(data)
     // })
-    this.socket.on('typingMessage', (data) => {
+    this.socket.on('typingMessage', data => {
       this.typing = data.userName
     })
   },
