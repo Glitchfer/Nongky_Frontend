@@ -135,6 +135,8 @@
         <video
           v-if="this.collection.type === 'video/mp4'"
           :src="`${urlApi}${collection.fileName}`"
+          width="50%"
+          controls
         ></video>
       </div>
     </div>
