@@ -323,17 +323,29 @@ export default {
           this.lastChat([room, this.userData.user_id])
         })
         .catch(error => {
-          alert(error)
+          this.$bvToast.toast(error, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     accept(val) {
       if (val[0] === 1) {
         this.inviteResponse(val)
           .then(result => {
-            alert(result.msg)
+            this.$bvToast.toast(result.msg, {
+              title: 'Success',
+              variant: 'success',
+              solid: true
+            })
           })
           .catch(error => {
-            alert(error)
+            this.$bvToast.toast(error, {
+              title: 'Warning',
+              variant: 'danger',
+              solid: true
+            })
           })
       } else {
         this.inviteResponse(val)
@@ -344,7 +356,11 @@ export default {
             this.invitation(data)
           })
           .catch(error => {
-            alert(error)
+            this.$bvToast.toast(error, {
+              title: 'Warning',
+              variant: 'danger',
+              solid: true
+            })
           })
       }
     },
@@ -365,7 +381,11 @@ export default {
       this.requestFriend([data, this.userData])
         .then(result => {})
         .catch(error => {
-          console.log(error)
+          this.$bvToast.toast(error, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     onSearch() {
@@ -413,8 +433,13 @@ export default {
           this.getChatList()
         })
         .catch(error => {
-          console.log(
-            error === 'Bad Request' ? 'Anda belum memilih kontak' : null
+          this.$bvToast.toast(
+            error === 'Bad Request' ? 'Anda belum memilih kontak' : null,
+            {
+              title: 'Warning',
+              variant: 'danger',
+              solid: true
+            }
           )
         })
       if (this.recentRoom) {
@@ -447,7 +472,7 @@ export default {
       this.isContacts = true
     },
     onLogout() {
-      this.logout()
+      this.logout(this.$bvToast)
     },
     onSetting() {
       if (this.isSetting === false) {

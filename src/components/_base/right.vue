@@ -376,7 +376,11 @@ export default {
           this.lastChat([room, this.userData.user_id])
         })
         .catch(error => {
-          alert(error)
+          this.$bvToast.toast(error, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     close() {

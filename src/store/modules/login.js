@@ -46,7 +46,6 @@ export default {
     },
     register(context, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
         axios
           .post(`${context.state.urlApi}users/register`, payload)
           .then(response => {
@@ -56,14 +55,17 @@ export default {
             if (error.response === undefined) {
               alert('Tidak dapat terhubung ke server')
             } else {
-              console.log(error.respons)
               reject(error.response)
             }
           })
       })
     },
     logout(context, payload) {
-      alert('Anda akan dialihkan ke halaman login')
+      payload.toast('Anda akan dialihkan ke halaman login', {
+        title: 'Info',
+        variant: 'info',
+        solid: true
+      })
       if (context.state.userId === null && context.state.activityId === null) {
         return null
       } else {
@@ -72,10 +74,16 @@ export default {
             `http://127.0.0.1:3001/users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
           )
           .then(response => {
-            alert(response.data.msg)
+            payload.toast(response.data.msg, {
+              title: 'Success',
+              variant: 'success',
+              solid: true
+            })
             localStorage.removeItem('token')
             context.commit('delUser')
-            router.push('/login')
+            setTimeout(() => {
+              router.push('/login')
+            }, 2000)
           })
           .catch(error => {
             console.log(error)
@@ -120,9 +128,7 @@ export default {
                 .patch(
                   `http://127.0.0.1:3001/users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
                 )
-                .then(response => {
-                  console.log(response.data)
-                })
+                .then(response => {})
                 .catch(error => {
                   console.log(error)
                 })

@@ -30,7 +30,6 @@ export default {
               alert('Tidak dapat terhubung ke server')
             } else {
               reject(error.response.data.msg)
-              alert(error.response.data.msg)
             }
           })
       })

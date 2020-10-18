@@ -78,20 +78,41 @@ export default {
     ...mapMutations([]),
     onSubmit() {
       this.forgot([this.user_email, this.form])
-        .then((result) => {
-          alert('Please check your e-mail')
-          alert('try again, if you did not get your activation link')
-          alert(result.msg)
-          this.$router.push({
-            name: 'Login',
-            params: {
-              ...this.form.email
-            }
+        .then(result => {
+          this.$bvToast.toast(result.msg, {
+            title: 'Success',
+            variant: 'success',
+            solid: true
           })
+          this.$bvToast.toast('Please check your e-mail', {
+            title: 'Info',
+            variant: 'info',
+            solid: true
+          })
+          this.$bvToast.toast(
+            'try again, if you did not get your activation link',
+            {
+              title: 'Info',
+              variant: 'info',
+              solid: true
+            }
+          )
+          setTimeout(() => {
+            this.$router.push({
+              name: 'Login',
+              params: {
+                ...this.form.email
+              }
+            })
+          }, 2000)
         })
-        .catch((error) => {
+        .catch(error => {
           this.msg = error
-          alert(this.msg)
+          this.$bvToast.toast(this.msg, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     }
   }

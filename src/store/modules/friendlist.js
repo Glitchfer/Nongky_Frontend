@@ -95,7 +95,6 @@ export default {
           })
           .catch(error => {
             reject(error.response)
-            alert(error.response.data.msg)
           })
       })
     },

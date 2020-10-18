@@ -230,7 +230,11 @@ export default {
       this.friendList(this.userData)
         .then(result => {})
         .catch(error => {
-          console.log(error)
+          this.$bvToast.toast(error, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     onPick(data) {
@@ -248,8 +252,13 @@ export default {
           // console.log(result)
         })
         .catch(error => {
-          console.log(
-            error === 'Bad Request' ? 'Anda belum memilih kontak' : null
+          this.$bvToast.toast(
+            error === 'Bad Request' ? 'Anda belum memilih kontak' : null,
+            {
+              title: 'Warning',
+              variant: 'danger',
+              solid: true
+            }
           )
         })
     }

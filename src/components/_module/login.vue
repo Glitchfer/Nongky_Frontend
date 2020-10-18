@@ -74,22 +74,38 @@ export default {
     onSubmit() {
       this.login(this.form)
         .then(result => {
-          alert(result.msg)
-          console.log(result.data)
-          this.$router.push({
-            name: 'Window',
-            params: {
-              ...this.form.email
-            }
+          this.$bvToast.toast(result.msg, {
+            title: 'Success',
+            variant: 'success',
+            solid: true
           })
+          setTimeout(() => {
+            this.$router.push({
+              name: 'Window',
+              params: {
+                ...this.form.email
+              }
+            })
+          }, 2000)
         })
         .catch(error => {
           this.msg = error.data.msg
-          alert(this.msg)
+          this.$bvToast.toast(this.msg, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     onGoogle() {
-      alert('This feature will be able to use as soon as posible')
+      this.$bvToast.toast(
+        'This feature will be able to use as soon as posible',
+        {
+          title: 'Info',
+          variant: 'info',
+          solid: true
+        }
+      )
     }
   }
 }

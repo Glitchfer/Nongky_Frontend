@@ -174,7 +174,11 @@ export default {
         }
       })
       .catch(error => {
-        alert(error)
+        this.$bvToast.toast(error, {
+          title: 'Warning',
+          variant: 'danger',
+          solid: true
+        })
       })
     this.getCollection(this.userData.user_id)
   },
@@ -192,7 +196,6 @@ export default {
       'updateLocation'
     ]),
     onUpload(event) {
-      console.log(event.target.files[0])
       const data = new FormData()
       data.append('image', event.target.files[0])
       this.addCollection([this.userData.user_id, data])
@@ -259,7 +262,11 @@ export default {
       data.append('user_bio', this.form.user_bio)
       this.patchFoto([this.userData.user_id, data])
         .then(result => {
-          alert(result)
+          this.$bvToast.toast(result, {
+            title: 'Success',
+            variant: 'success',
+            solid: true
+          })
           this.profileData(this.userData.user_id)
           this.form = {
             image: '',
@@ -270,7 +277,11 @@ export default {
           }
         })
         .catch(error => {
-          alert(error)
+          this.$bvToast.toast(error, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     onCancel() {

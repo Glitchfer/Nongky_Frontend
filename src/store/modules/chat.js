@@ -44,7 +44,7 @@ export default {
             axios
               .patch(`${context.state.urlApi}chat/${maping[i]}`)
               .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
               })
               .catch(error => {
                 console.log(error)
@@ -90,7 +90,6 @@ export default {
               alert('Tidak dapat terhubung ke server')
             } else {
               reject(error.response.data.msg)
-              alert(error.response.data.msg)
             }
           })
       })
@@ -174,7 +173,6 @@ export default {
               data = {}
             } else {
               reject(error.response.data.msg)
-              alert(error.response.data.msg)
               data = {}
             }
           })

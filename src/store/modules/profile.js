@@ -33,7 +33,6 @@ export default {
               alert('Tidak dapat terhubung ke server')
             } else {
               reject(error.response.data.msg)
-              alert(error.response.data.msg)
             }
           })
       })
@@ -51,7 +50,6 @@ export default {
               alert('Tidak dapat terhubung ke server')
             } else {
               reject(error.response.data.msg)
-              alert(error.response.data.msg)
             }
           })
       })
@@ -129,7 +127,6 @@ export default {
       })
     },
     updateLocation(context, payload) {
-      console.log(payload[1])
       const data = {
         user_lat: payload[1].lat,
         user_lng: payload[1].lng,

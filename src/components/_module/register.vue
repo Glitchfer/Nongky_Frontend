@@ -13,7 +13,11 @@
               v-model="form.user_name"
             ></b-form-input>
           </b-form-group>
-          <b-form-group id="input-group-2" label="Phone number:" label-for="input-2">
+          <b-form-group
+            id="input-group-2"
+            label="Phone number:"
+            label-for="input-2"
+          >
             <b-form-input
               id="input-1"
               type="number"
@@ -32,7 +36,11 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group id="input-group-3" label="Your Password:" label-for="input-3">
+          <b-form-group
+            id="input-group-3"
+            label="Your Password:"
+            label-for="input-3"
+          >
             <b-form-input
               id="input-3"
               type="password"
@@ -87,25 +95,40 @@ export default {
     ...mapActions(['register']),
     ...mapMutations([]),
     onSubmit() {
-      console.log(this.form)
       this.register(this.form)
-        .then((result) => {
-          alert(result.msg)
-          console.log(result.data)
-          this.$router.push({
-            name: 'Login',
-            params: {
-              ...this.form.email
-            }
+        .then(result => {
+          this.$bvToast.toast(result.msg, {
+            title: 'Success',
+            variant: 'success',
+            solid: true
           })
+          setTimeout(() => {
+            this.$router.push({
+              name: 'Login',
+              params: {
+                ...this.form.email
+              }
+            })
+          }, 2000)
         })
-        .catch((error) => {
+        .catch(error => {
           this.msg = error.data.msg
-          alert(this.msg)
+          this.$bvToast.toast(this.msg, {
+            title: 'Warning',
+            variant: 'danger',
+            solid: true
+          })
         })
     },
     onGoogle() {
-      alert('This feature will be able to use as soon as posible')
+      this.$bvToast.toast(
+        'This feature will be able to use as soon as posible',
+        {
+          title: 'Info',
+          variant: 'info',
+          solid: true
+        }
+      )
     }
   }
 }

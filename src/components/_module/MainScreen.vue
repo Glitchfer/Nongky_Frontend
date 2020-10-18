@@ -44,7 +44,6 @@ export default {
     ...mapActions([]),
     onResize() {
       this.windowWidth = window.innerWidth
-      console.log(this.windowWidth)
     }
   }
 }
