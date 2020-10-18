@@ -4,7 +4,8 @@
       <b-col cols="12" sm="12" md="5" lg="4" xl="4" class="chatList">
         <Left />
       </b-col>
-      <b-col v-if="windowWidth >= 768" cols="12" sm="12" md="7" lg="8" xl="8" class="chatRoom">
+      <!-- <b-col v-if="windowWidth >= 768" cols="12" sm="12" md="7" lg="8" xl="8" class="chatRoom"> -->
+      <b-col cols="12" sm="12" md="7" lg="8" xl="8" class="chatRoom">
         <Right />
       </b-col>
     </b-row>
@@ -69,11 +70,21 @@ export default {
 .chatList {
   color: white;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 .chatRoom {
   color: white;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+}
+@media (max-width: 767px) {
+  .chatList {
+    height: 40%;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px #556ba87a;
+  }
+  .chatRoom {
+    height: 60%;
+  }
 }
 </style>

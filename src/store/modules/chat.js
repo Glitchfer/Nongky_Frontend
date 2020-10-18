@@ -4,7 +4,9 @@ export default {
     urlApi: process.env.VUE_APP_URL,
     chatList: {},
     firstRoomChat: {},
-    roomChatLanjutan: {}
+    roomChatLanjutan: {},
+    lastChat: {},
+    recentRoom: ''
   },
   mutations: {
     setChatList(state, payload) {
@@ -18,10 +20,63 @@ export default {
     },
     setSocketData(state, payload) {
       state.roomChatLanjutan.push(payload)
-      console.log(state.roomChatLanjutan)
+    },
+    setLastChat(state, payload) {
+      state.lastChat = payload
+    },
+    setRecentRoom(state, payload) {
+      state.recentRoom = payload
     }
   },
   actions: {
+    updateStatus(context, payload) {
+      const body = {
+        room_id: payload[0],
+        user_id: payload[1]
+      }
+      axios
+        .post(`${context.state.urlApi}chat/unread`, body)
+        .then(response => {
+          const maping = response.data.data.map(function(val) {
+            return val.table_id
+          })
+          for (let i = 0; i < maping.length; i++) {
+            axios
+              .patch(`${context.state.urlApi}chat/${maping[i]}`)
+              .then(response => {
+                console.log(response.data)
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
+        })
+        .catch(error => {
+          if (error.response === undefined) {
+            alert('Tidak dapat terhubung ke server')
+          }
+        })
+    },
+    lastChat(context, payload) {
+      const data = []
+      for (let i = 0; i < payload[0].length; i++) {
+        const body = {
+          room_id: payload[0][i],
+          user_id: payload[1]
+        }
+        axios
+          .post(`${context.state.urlApi}chat/last`, body)
+          .then(response => {
+            data.push(response.data)
+          })
+          .catch(error => {
+            if (error.response === undefined) {
+              alert('Tidak dapat terhubung ke server')
+            }
+          })
+      }
+      context.commit('setLastChat', data)
+    },
     chatList(context, payload) {
       return new Promise((resolve, reject) => {
         axios
@@ -131,9 +186,15 @@ export default {
     },
     socketData(context, payload) {
       context.commit('setSocketData', payload)
+    },
+    throwRoom(context, payload) {
+      context.commit('setRecentRoom', payload)
     }
   },
   getters: {
+    getRecentRoom(state) {
+      return state.recentRoom
+    },
     getListChat(state) {
       return state.chatList
     },
@@ -142,6 +203,9 @@ export default {
     },
     getChatHistoryLanjutan(state) {
       return state.roomChatLanjutan
+    },
+    getLastChat(state) {
+      return state.lastChat
     }
   }
 }

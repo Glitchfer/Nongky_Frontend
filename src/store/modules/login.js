@@ -115,7 +115,6 @@ export default {
               localStorage.removeItem('token')
               context.commit('delUser')
               router.push('/login')
-              alert('Invalid Token, Relogin required')
             } else if (error.response.data.msg === 'jwt expired') {
               axios
                 .patch(
@@ -130,7 +129,6 @@ export default {
               localStorage.removeItem('token')
               context.commit('delUser')
               router.push('/login')
-              alert('Token Expired, Relogin required')
             }
           }
           return Promise.reject(error)

@@ -52,14 +52,25 @@
             {{
               item.user_full_name === '' ? item.user_name : item.user_full_name
             }}
-            <img src="../../assets/img/Union.png" alt="#" />
+            <!-- <img src="../../assets/img/Union.png" alt="#" /> -->
           </h5>
-          <p>Why did you do that?</p>
+          <div>
+            <p>{{ getLastChat[index].data[0].message }}</p>
+          </div>
         </div>
         <div class="notif">
-          <p>15:20</p>
-          <div class="count">
-            <p>2</p>
+          <p>
+            {{ getLastChat[index].data[0].created }}
+          </p>
+          <div
+            class="count"
+            v-if="
+              getLastChat[index].pagination[0].unread_count > 0 &&
+                getPicked === false &&
+                item.sender_id === getLastChat[index].data[0].sender_id
+            "
+          >
+            <p>{{ getLastChat[index].pagination[0].unread_count }}</p>
           </div>
         </div>
       </div>
@@ -230,7 +241,8 @@ export default {
       errMsg: '',
       msgInvite: '',
       inviteCount: 0,
-      chatListData: {}
+      chatListData: {},
+      recentRoom: ''
     }
   },
   components: {
@@ -249,7 +261,6 @@ export default {
         .then(result => {})
         .catch(error => {
           this.errMsg = error.msg
-          console.log(this.errMsg)
         })
     }
   },
@@ -260,7 +271,8 @@ export default {
       'userData',
       'getInvitationData',
       'getListChat',
-      'getUserProfile'
+      'getUserProfile',
+      'getLastChat'
     ])
   },
   created() {
@@ -277,6 +289,7 @@ export default {
   updated() {
     this.inviteType()
     this.getInvitation()
+    // this.getChatList()
   },
   methods: {
     ...mapActions([
@@ -293,14 +306,22 @@ export default {
       'chatRoomLanjutan',
       'logout',
       'profileData',
-      'socketData'
+      'socketData',
+      'lastChat',
+      'updateStatus',
+      'throwRoom'
     ]),
     getprofileData() {
       this.profileData(this.userData.user_id)
     },
     getChatList() {
       this.chatList(this.userData.user_id)
-        .then(result => {})
+        .then(result => {
+          const room = result.map(function(val) {
+            return val.room_id
+          })
+          this.lastChat([room, this.userData.user_id])
+        })
         .catch(error => {
           alert(error)
         })
@@ -336,7 +357,6 @@ export default {
           this.inviteCount = result.length
         })
         .catch(error => {
-          console.log(error.status)
           this.msgInvite = error.status
           this.inviteCount = 0
         })
@@ -389,15 +409,23 @@ export default {
       this.PickUser([data, true])
       this.chatRoomLanjutan([this.userData.user_id, data])
         .then(result => {
-          console.log(result)
+          this.updateStatus([result[0].room_id, this.userData.user_id])
+          this.getChatList()
         })
         .catch(error => {
           console.log(
             error === 'Bad Request' ? 'Anda belum memilih kontak' : null
           )
         })
-      this.socket.emit('setRoom', data)
-      // this.socket.emit('changeRoom', { newroom: data.room_id })
+      if (this.recentRoom) {
+        this.socket.emit('changeRoom', [data.room_id, this.recentRoom])
+        this.recentRoom = data.room_id
+        this.throwRoom(this.recentRoom)
+      } else {
+        this.socket.emit('setRoom', data)
+        this.recentRoom = data.room_id
+        this.throwRoom(this.recentRoom)
+      }
     },
     getAllUser() {
       this.allUser()

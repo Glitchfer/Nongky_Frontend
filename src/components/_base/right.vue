@@ -19,7 +19,7 @@
                   ? pickedData.user_name
                   : pickedData.user_full_name
               }}
-              <img src="../../assets/img/Union.png" alt="#" />
+              <!-- <img src="../../assets/img/Union.png" alt="#" /> -->
             </h5>
             <p class="p-online" v-if="pickedData.user_login_status === 1">
               Online
@@ -304,10 +304,18 @@ export default {
   watch: {
     text(value) {
       if (value) {
-        this.socket.emit('typing', {
-          userName: this.userData.user_name,
-          room: this.pickedData.room_id
-        })
+        if (this.recentRoom) {
+          this.socket.emit('typingChange', {
+            userName: this.userData.user_name,
+            room: this.pickedData.room_id,
+            recentRoom: this.recentRoom
+          })
+        } else {
+          this.socket.emit('typing', {
+            userName: this.userData.user_name,
+            room: this.pickedData.room_id
+          })
+        }
       } else {
         this.socket.emit('typing', {
           userName: false,
@@ -338,7 +346,8 @@ export default {
       pickedData: 'getPickedData',
       userData: 'userData',
       chatHistory: 'getFirstChatHistory',
-      chat: 'getChatHistoryLanjutan'
+      chat: 'getChatHistoryLanjutan',
+      recentRoom: 'getRecentRoom'
     })
   },
   methods: {
@@ -348,7 +357,8 @@ export default {
       'clearRoom',
       'postChat',
       'chatList',
-      'socketData'
+      'socketData',
+      'lastChat'
     ]),
     friendProfile(val) {
       if (val === 'open') {
@@ -359,6 +369,15 @@ export default {
     },
     getChatList() {
       this.chatList(this.userData.user_id)
+        .then(result => {
+          const room = result.map(function(val) {
+            return val.room_id
+          })
+          this.lastChat([room, this.userData.user_id])
+        })
+        .catch(error => {
+          alert(error)
+        })
     },
     close() {
       this.PickUser([{}, false])
@@ -368,6 +387,7 @@ export default {
     close2() {
       this.throwFirstChat(['', false])
       this.clearRoom()
+      this.getChatList()
       this.text = ''
     },
     send(value) {
