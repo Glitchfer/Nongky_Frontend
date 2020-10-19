@@ -52,15 +52,18 @@
             {{
               item.user_full_name === '' ? item.user_name : item.user_full_name
             }}
-            <!-- <img src="../../assets/img/Union.png" alt="#" /> -->
           </h5>
           <div>
             <!-- <p>{{ getLastChat[index].data[0].message }}</p> -->
+            <p>why did yoou do that</p>
           </div>
         </div>
         <div class="notif">
+          <!-- <p>
+            {{ getLastChat[index].data[0].created }}
+          </p> -->
           <p>
-            <!-- {{ getLastChat[index].data[0].created }} -->
+            23:30
           </p>
           <!-- <div
             class="count"
@@ -72,6 +75,9 @@
           >
             <p>{{ getLastChat[index].pagination[0].unread_count }}</p>
           </div> -->
+          <div class="count">
+            <p>2</p>
+          </div>
         </div>
       </div>
     </div>
@@ -226,7 +232,8 @@ export default {
   data() {
     return {
       urlApi: process.env.VUE_APP_URL,
-      socket: io(process.env.VUE_APP_URL),
+      // socket: io(process.env.VUE_APP_URL),
+      socket: io('http://127.0.0.1:3001'),
       isRequest: false,
       isSrc: false,
       isAdd: false,
@@ -317,10 +324,10 @@ export default {
     getChatList() {
       this.chatList(this.userData.user_id)
         .then(result => {
-          const room = result.map(function(val) {
-            return val.room_id
-          })
-          this.lastChat([room, this.userData.user_id])
+          // const room = result.map(function(val) {
+          //   return val.room_id
+          // })
+          // this.lastChat([room, this.userData.user_id])
         })
         .catch(error => {
           this.$bvToast.toast(error, {
@@ -354,6 +361,10 @@ export default {
               user_id: this.userData.user_id
             }
             this.invitation(data)
+              .then(result => {})
+              .catch(error => {
+                console.log(error.msg)
+              })
           })
           .catch(error => {
             this.$bvToast.toast(error, {
@@ -429,7 +440,7 @@ export default {
       this.PickUser([data, true])
       this.chatRoomLanjutan([this.userData.user_id, data])
         .then(result => {
-          this.updateStatus([result[0].room_id, this.userData.user_id])
+          // this.updateStatus([result[0].room_id, this.userData.user_id])
           this.getChatList()
         })
         .catch(error => {

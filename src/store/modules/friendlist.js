@@ -72,10 +72,15 @@ export default {
     invitation(context, payload) {
       return new Promise((resolve, reject) => {
         axios
+          // ini nampilin log error
           .post(`${context.state.urlApi}friend/invitation`, payload)
           .then(response => {
-            resolve(response.data.data)
-            context.commit('setInvitation', response.data.data)
+            if (response.data.status === 210) {
+              return null
+            } else {
+              resolve(response.data.data)
+              context.commit('setInvitation', response.data.data)
+            }
           })
           .catch(error => {
             reject(error.response.data)
