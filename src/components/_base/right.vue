@@ -292,7 +292,7 @@ export default {
   name: 'Right',
   data() {
     return {
-      socket: io('http://127.0.0.1:3001'),
+      socket: io(process.env.VUE_APP_URL),
       urlApi: process.env.VUE_APP_URL,
       text: '',
       isOnline: true,

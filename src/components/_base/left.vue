@@ -55,14 +55,14 @@
             <!-- <img src="../../assets/img/Union.png" alt="#" /> -->
           </h5>
           <div>
-            <p>{{ getLastChat[index].data[0].message }}</p>
+            <!-- <p>{{ getLastChat[index].data[0].message }}</p> -->
           </div>
         </div>
         <div class="notif">
           <p>
-            {{ getLastChat[index].data[0].created }}
+            <!-- {{ getLastChat[index].data[0].created }} -->
           </p>
-          <div
+          <!-- <div
             class="count"
             v-if="
               getLastChat[index].pagination[0].unread_count > 0 &&
@@ -71,7 +71,7 @@
             "
           >
             <p>{{ getLastChat[index].pagination[0].unread_count }}</p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -226,7 +226,7 @@ export default {
   data() {
     return {
       urlApi: process.env.VUE_APP_URL,
-      socket: io('http://127.0.0.1:3001'),
+      socket: io(process.env.VUE_APP_URL),
       isRequest: false,
       isSrc: false,
       isAdd: false,

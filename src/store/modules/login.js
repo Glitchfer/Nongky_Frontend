@@ -71,7 +71,7 @@ export default {
       } else {
         axios
           .patch(
-            `http://127.0.0.1:3001/users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
+            `${context.state.urlApi}users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
           )
           .then(response => {
             payload.toast(response.data.msg, {
@@ -114,7 +114,7 @@ export default {
             ) {
               axios
                 .patch(
-                  `http://127.0.0.1:3001/users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
+                  `${context.state.urlApi}users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
                 )
                 .then(response => {})
                 .catch(error => {
@@ -126,7 +126,7 @@ export default {
             } else if (error.response.data.msg === 'jwt expired') {
               axios
                 .patch(
-                  `http://127.0.0.1:3001/users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
+                  `${context.state.urlApi}users/?activity_id=${context.state.activityId}&user_id=${context.state.userId}`
                 )
                 .then(response => {})
                 .catch(error => {
