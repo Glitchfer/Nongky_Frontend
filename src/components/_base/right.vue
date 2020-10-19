@@ -358,8 +358,8 @@ export default {
       'clearRoom',
       'postChat',
       'chatList',
-      'socketData',
-      'lastChat'
+      'socketData'
+      // 'lastChat'
     ]),
     friendProfile(val) {
       if (val === 'open') {
@@ -371,10 +371,10 @@ export default {
     getChatList() {
       this.chatList(this.userData.user_id)
         .then(result => {
-          const room = result.map(function(val) {
-            return val.room_id
-          })
-          this.lastChat([room, this.userData.user_id])
+          // const room = result.map(function(val) {
+          //   return val.room_id
+          // })
+          // this.lastChat([room, this.userData.user_id])
         })
         .catch(error => {
           this.$bvToast.toast(error, {

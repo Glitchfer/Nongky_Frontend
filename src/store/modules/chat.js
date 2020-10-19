@@ -5,7 +5,7 @@ export default {
     chatList: {},
     firstRoomChat: {},
     roomChatLanjutan: {},
-    lastChat: {},
+    // lastChat: {},
     recentRoom: ''
   },
   mutations: {
@@ -21,9 +21,9 @@ export default {
     setSocketData(state, payload) {
       state.roomChatLanjutan.push(payload)
     },
-    setLastChat(state, payload) {
-      state.lastChat = payload
-    },
+    // setLastChat(state, payload) {
+    //   state.lastChat = payload
+    // },
     setRecentRoom(state, payload) {
       state.recentRoom = payload
     }
@@ -57,26 +57,26 @@ export default {
           }
         })
     },
-    lastChat(context, payload) {
-      const data = []
-      for (let i = 0; i < payload[0].length; i++) {
-        const body = {
-          room_id: payload[0][i],
-          user_id: payload[1]
-        }
-        axios
-          .post(`${context.state.urlApi}chat/last`, body)
-          .then(response => {
-            data.push(response.data)
-          })
-          .catch(error => {
-            if (error.response === undefined) {
-              alert('Tidak dapat terhubung ke server')
-            }
-          })
-      }
-      context.commit('setLastChat', data)
-    },
+    // lastChat(context, payload) {
+    //   const data = []
+    //   for (let i = 0; i < payload[0].length; i++) {
+    //     const body = {
+    //       room_id: payload[0][i],
+    //       user_id: payload[1]
+    //     }
+    //     axios
+    //       .post(`${context.state.urlApi}chat/last`, body)
+    //       .then(response => {
+    //         data.push(response.data)
+    //       })
+    //       .catch(error => {
+    //         if (error.response === undefined) {
+    //           alert('Tidak dapat terhubung ke server')
+    //         }
+    //       })
+    //   }
+    //   context.commit('setLastChat', data)
+    // },
     chatList(context, payload) {
       return new Promise((resolve, reject) => {
         axios
@@ -201,9 +201,9 @@ export default {
     },
     getChatHistoryLanjutan(state) {
       return state.roomChatLanjutan
-    },
-    getLastChat(state) {
-      return state.lastChat
     }
+    // getLastChat(state) {
+    //   return state.lastChat
+    // }
   }
 }

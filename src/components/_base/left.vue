@@ -39,23 +39,25 @@
         :key="index"
         class="friend-list"
       >
-        <div class="profile-picture" @click="onFriendPick(item)">
+        <div class="profile-picture" @click="onFriendPick(item[1])">
           <img
-            v-if="item.user_image.length < 1"
+            v-if="item[1].user_image.length < 1"
             src="../../assets/img/propict.png"
             alt="#"
           />
-          <img v-else :src="`${urlApi}${item.user_image}`" alt="#" />
+          <img v-else :src="`${urlApi}${item[1].user_image}`" alt="#" />
         </div>
-        <div class="name" @click="onFriendPick(item)">
+        <div class="name" @click="onFriendPick(item[1])">
           <h5>
             {{
-              item.user_full_name === '' ? item.user_name : item.user_full_name
+              item[1].user_full_name === ''
+                ? item[1].user_name
+                : item[1].user_full_name
             }}
           </h5>
           <div>
             <!-- <p>{{ getLastChat[index].data[0].message }}</p> -->
-            <p>why did yoou do that</p>
+            <p>{{ item[1].message }}</p>
           </div>
         </div>
         <div class="notif">
@@ -63,7 +65,7 @@
             {{ getLastChat[index].data[0].created }}
           </p> -->
           <p>
-            23:30
+            {{ item[1].created }}
           </p>
           <!-- <div
             class="count"
@@ -75,8 +77,15 @@
           >
             <p>{{ getLastChat[index].pagination[0].unread_count }}</p>
           </div> -->
-          <div class="count">
-            <p>2</p>
+          <div
+            v-if="
+              item[0].unread_count > 0 &&
+                getPicked === false &&
+                item[1].sender_id === item[2].sender_id
+            "
+            class="count"
+          >
+            <p>{{ item[0].unread_count }}</p>
           </div>
         </div>
       </div>
@@ -278,8 +287,8 @@ export default {
       'userData',
       'getInvitationData',
       'getListChat',
-      'getUserProfile',
-      'getLastChat'
+      'getUserProfile'
+      // 'getLastChat'
     ])
   },
   created() {
@@ -314,7 +323,7 @@ export default {
       'logout',
       'profileData',
       'socketData',
-      'lastChat',
+      // 'lastChat',
       'updateStatus',
       'throwRoom'
     ]),
