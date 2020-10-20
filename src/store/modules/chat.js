@@ -6,9 +6,13 @@ export default {
     firstRoomChat: {},
     roomChatLanjutan: {},
     // lastChat: {},
-    recentRoom: ''
+    recentRoom: '',
+    room: 0
   },
   mutations: {
+    setRoom(state, payload) {
+      state.room = payload
+    },
     setChatList(state, payload) {
       state.chatList = payload
     },
@@ -118,6 +122,7 @@ export default {
     chatRoomLanjutan(context, payload) {
       // context.commit('setRoomChatLanjutan', {})
       context.commit('setFirstRoomChat', {})
+      context.commit('setRoom', payload[1].room_id)
       const body = {
         room_id: payload[1].room_id
       }
@@ -190,6 +195,9 @@ export default {
     }
   },
   getters: {
+    getRoomDummy(state) {
+      return state.room
+    },
     getRecentRoom(state) {
       return state.recentRoom
     },

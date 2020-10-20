@@ -47,36 +47,37 @@
           />
           <img v-else :src="`${urlApi}${item[1].user_image}`" alt="#" />
         </div>
+        <!-- <div class="profile-picture" @click="onFriendPick(item)">
+          <img
+            v-if="item.user_image.length < 1"
+            src="../../assets/img/propict.png"
+            alt="#"
+          />
+          <img v-else :src="`${urlApi}${item.user_image}`" alt="#" />
+        </div> -->
         <div class="name" @click="onFriendPick(item[1])">
+          <!-- <div class="name" @click="onFriendPick(item)"> -->
           <h5>
             {{
               item[1].user_full_name === ''
                 ? item[1].user_name
                 : item[1].user_full_name
             }}
+            <!-- {{
+              item.user_full_name === '' ? item.user_name : item.user_full_name
+            }} -->
           </h5>
           <div>
-            <!-- <p>{{ getLastChat[index].data[0].message }}</p> -->
+            <!-- <p>{{ item.message }}</p> -->
             <p>{{ item[1].message }}</p>
           </div>
         </div>
         <div class="notif">
-          <!-- <p>
-            {{ getLastChat[index].data[0].created }}
-          </p> -->
           <p>
             {{ item[1].created }}
+            <!-- 23:00 -->
           </p>
-          <!-- <div
-            class="count"
-            v-if="
-              getLastChat[index].pagination[0].unread_count > 0 &&
-                getPicked === false &&
-                item.sender_id === getLastChat[index].data[0].sender_id
-            "
-          >
-            <p>{{ getLastChat[index].pagination[0].unread_count }}</p>
-          </div> -->
+          <!-- <div class="count"> -->
           <div
             v-if="
               item[0].unread_count > 0 &&
@@ -86,6 +87,7 @@
             class="count"
           >
             <p>{{ item[0].unread_count }}</p>
+            <!-- <p>1</p> -->
           </div>
         </div>
       </div>
@@ -241,8 +243,8 @@ export default {
   data() {
     return {
       urlApi: process.env.VUE_APP_URL,
-      socket: io(process.env.VUE_APP_URL),
-      // socket: io('http://127.0.0.1:3001'),
+      // socket: io(process.env.VUE_APP_URL),
+      socket: io('http://127.0.0.1:3001'),
       isRequest: false,
       isSrc: false,
       isAdd: false,
@@ -449,7 +451,7 @@ export default {
       this.PickUser([data, true])
       this.chatRoomLanjutan([this.userData.user_id, data])
         .then(result => {
-          // this.updateStatus([result[0].room_id, this.userData.user_id])
+          this.updateStatus([result[0].room_id, this.userData.user_id])
           this.getChatList()
         })
         .catch(error => {
