@@ -69,12 +69,12 @@
           </h5>
           <div>
             <!-- <p>{{ item.message }}</p> -->
-            <p>{{ item[1].message }}</p>
+            <p>{{ item[3].message }}</p>
           </div>
         </div>
         <div class="notif">
           <p>
-            {{ item[1].created }}
+            {{ item[3].created }}
             <!-- 23:00 -->
           </p>
           <!-- <div class="count"> -->
