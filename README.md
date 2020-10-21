@@ -1,6 +1,6 @@
 <h1 align='center'>Vue JS - Nongky</h1>
   <p align="center">
-    <a href="https://nongky.netlify.app//">View Demo</a>
+    <a href="https://nongky.netlify.app/">View Demo</a>
     ·
     <a href="https://github.com/Glitchfer/Nongky_Frontend/issues">Report Bug</a>
     ·
