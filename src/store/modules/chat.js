@@ -87,6 +87,7 @@ export default {
           .get(`${context.state.urlApi}chat/${payload}`)
           .then(response => {
             context.commit('setChatList', response.data.data)
+            console.log(response.data.data[2][3])
             resolve(response.data.data)
           })
           .catch(error => {

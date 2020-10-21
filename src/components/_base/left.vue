@@ -69,11 +69,11 @@
           </h5>
           <div>
             <!-- <p>{{ item.message }}</p> -->
-            <p>{{ item[3].message }}</p>
+            <p v-if="item[3] != null">{{ item[3].message }}</p>
           </div>
         </div>
         <div class="notif">
-          <p>
+          <p v-if="item[3] != null">
             {{ item[3].created }}
             <!-- 23:00 -->
           </p>
