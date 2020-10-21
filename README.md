@@ -7,7 +7,7 @@
     <a href="https://github.com/Glitchfer/Nongky_Frontend/issues">Request Feature</a>
   </p>
 
-![Image Banner](https://raw.githubusercontent.com/Glitchfer/KontaSan_FrontEnd_Project2/master/Konta-cover.jpg)
+![Image Banner](https://raw.githubusercontent.com/Glitchfer/Nongky_Frontend/master/cover.jpg)
 
 ## About The Project
 
